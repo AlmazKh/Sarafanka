@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "495223976214",
+    "firebase_url": "https://sarafanka.firebaseio.com",
+    "project_id": "sarafanka",
+    "storage_bucket": "sarafanka.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:495223976214:android:c99aa8ba6817507597e037",
+        "android_client_info": {
+          "package_name": "com.almaz.sarafanka"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "495223976214-lt3ip88e80qs8mufa6q0p4kvno3bv4mn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.almaz.sarafanka",
+            "certificate_hash": "c914fcd12afc6460a7e3e6a385e6a9deebb7df75"
+          }
+        },
+        {
+          "client_id": "495223976214-8t46evvq70lbs7hipvah90kgqmo8msqn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKwNcgPxN5n9LUNXsDgQhgqhhDXSsODrk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "495223976214-8t46evvq70lbs7hipvah90kgqmo8msqn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
