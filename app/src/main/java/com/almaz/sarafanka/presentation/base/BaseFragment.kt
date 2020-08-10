@@ -23,9 +23,7 @@ abstract class BaseFragment<T : BaseViewModel>(private val classT: Class<T>) : F
     private val viewModelFactory: ViewModelProvider.Factory by instance()
     lateinit var viewModel: T
 
-    override val kodein: Kodein by lazy {
-        (rootActivity.application as SarafankaApp).kodein
-    }
+    override val kodein: Kodein by lazy { (rootActivity.application as SarafankaApp).kodein }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
