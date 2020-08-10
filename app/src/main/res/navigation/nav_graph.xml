@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/serviceFragment">
+
+    <fragment
+        android:id="@+id/contactsFragment"
+        android:name="com.almaz.sarafanka.presentation.contacts.ContactsFragment"
+        android:label="@string/contacts_page_title"
+        tools:layout="@layout/fragment_contacts" />
+
+    <fragment
+        android:id="@+id/eventFragment"
+        android:name="com.almaz.sarafanka.presentation.event.EventFragment"
+        android:label="@string/event_page_title"
+        tools:layout="@layout/fragment_event" />
+
+    <fragment
+        android:id="@+id/serviceFragment"
+        android:name="com.almaz.sarafanka.presentation.service.ServiceFragment"
+        android:label="@string/service_page_title"
+        tools:layout="@layout/fragment_service" />
+
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.almaz.sarafanka.presentation.notification.NotificationFragment"
+        android:label="@string/notification_page_title"
+        tools:layout="@layout/fragment_notification" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.almaz.sarafanka.presentation.profile.ProfileFragment"
+        android:label="@string/profile_page_title"
+        tools:layout="@layout/fragment_profile" />
+</navigation>

@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Sarafanka</string>
+    <!--    Auth pages -->
+    <string name="your_phone_number">Ваш номер телефона</string>
+    <string name="default_country_code">+7</string>
+    <string name="next">Далее</string>
+    <!--    Contacts page -->
+    <string name="contacts_page_title">Знакомые</string>
+    <!--    Event page -->
+    <string name="event_page_title">События</string>
+    <!--    Service page -->
+    <string name="service_page_title">Услуги</string>
+    <!--    Notification page -->
+    <string name="notification_page_title">Уведомления</string>
+    <!--    Profile page -->
+    <string name="profile_page_title">Профиль</string>
 </resources>
