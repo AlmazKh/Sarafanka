@@ -1,11 +1,17 @@
 package com.almaz.sarafanka.presentation.base
 
 import android.os.Bundle
+import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.almaz.sarafanka.SarafankaApp
 import com.almaz.sarafanka.utils.LoadingState
 import com.almaz.sarafanka.utils.extensions.observe
+import com.almaz.sarafanka.utils.extensions.toGone
+import com.almaz.sarafanka.utils.extensions.toVisible
+import kotlinx.android.synthetic.main.error_layer.*
+import kotlinx.android.synthetic.main.success_layer.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.generic.instance
@@ -31,6 +37,8 @@ abstract class BaseActivity<T : BaseViewModel>(private val classT: Class<T>) : A
 
     open fun subscribe(viewModel: T) {
         observe(viewModel.loadingState, ::bindLoadingState)
+        observe(viewModel.errorState, ::bindErrorState)
+        observe(viewModel.successState, ::bindSuccessState)
     }
 
     private fun bindLoadingState(loadingState: LoadingState) {
@@ -38,6 +46,24 @@ abstract class BaseActivity<T : BaseViewModel>(private val classT: Class<T>) : A
             LoadingState.LOADING -> {
             }
             LoadingState.READY -> {
+            }
+        }
+    }
+
+    private fun bindErrorState(error: String) {
+        showMessage(error_layer, tv_error, error)
+    }
+
+    private fun bindSuccessState(message: String) {
+        showMessage(success_layer, tv_success, message)
+    }
+
+    private fun showMessage(view: View?, field: TextView, message: String) {
+        when (message) {
+            "" -> view?.toGone()
+            else -> {
+                view?.toVisible()
+                field.text = message
             }
         }
     }
