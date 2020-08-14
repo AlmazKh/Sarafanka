@@ -3,12 +3,17 @@ package com.almaz.sarafanka.utils
 import androidx.lifecycle.MutableLiveData
 
 enum class AuthState {
+    CODE_SENDED,
     LOGGEDIN,
     REGISTERED,
     ERROR
 }
 
-fun MutableLiveData<AuthState>.loggedin() {
+fun MutableLiveData<AuthState>.codeSended() {
+    this.value = AuthState.CODE_SENDED
+}
+
+fun MutableLiveData<AuthState>.loggedIn() {
     this.value = AuthState.LOGGEDIN
 }
 

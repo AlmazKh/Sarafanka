@@ -11,6 +11,7 @@ import com.almaz.sarafanka.SarafankaApp
 import com.almaz.sarafanka.presentation.main.MainActivity
 import com.almaz.sarafanka.utils.LoadingState
 import com.almaz.sarafanka.utils.extensions.observe
+import com.google.android.material.snackbar.Snackbar
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.generic.instance
@@ -20,7 +21,7 @@ abstract class BaseFragment<T : BaseViewModel>(private val classT: Class<T>) : F
     protected lateinit var rootActivity: MainActivity
     protected abstract val layoutId: Int
 
-    private val viewModelFactory: ViewModelProvider.Factory by instance()
+    val viewModelFactory: ViewModelProvider.Factory by instance()
     lateinit var viewModel: T
 
     override val kodein: Kodein by lazy { (rootActivity.application as SarafankaApp).kodein }
@@ -43,11 +44,18 @@ abstract class BaseFragment<T : BaseViewModel>(private val classT: Class<T>) : F
         return inflater.inflate(layoutId, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupView()
+    }
+
     open fun subscribe(viewModel: T) {
         observe(viewModel.loadingState, ::bindLoadingState)
     }
 
-    private fun setViewModel() {
+    protected abstract fun setupView()
+
+    open fun setViewModel() {
         viewModel = viewModelFactory.create(classT)
     }
 
@@ -57,6 +65,16 @@ abstract class BaseFragment<T : BaseViewModel>(private val classT: Class<T>) : F
             }
             LoadingState.READY -> {
             }
+        }
+    }
+
+    fun showSnackbar(message: String) {
+        view?.let { it1 ->
+            Snackbar.make(
+                it1,
+                message,
+                Snackbar.LENGTH_SHORT
+            ).show()
         }
     }
 }

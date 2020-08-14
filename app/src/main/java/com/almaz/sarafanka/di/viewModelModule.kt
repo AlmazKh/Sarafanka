@@ -1,9 +1,7 @@
 package com.almaz.sarafanka.di
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.almaz.sarafanka.core.interactor.AuthInteractor
-import com.almaz.sarafanka.presentation.auth.LoginViewModel
+import com.almaz.sarafanka.presentation.auth.AuthViewModel
 import com.almaz.sarafanka.presentation.main.MainViewModel
 import com.almaz.sarafanka.utils.ViewModelFactory
 import com.almaz.sarafanka.utils.extensions.bindViewModel
@@ -23,7 +21,7 @@ fun viewModelModule() = Kodein.Module(name = "viewModelModule") {
     bindViewModel<MainViewModel>() with provider {
         MainViewModel(instance())
     }
-    bind<LoginViewModel>() with provider {
-        LoginViewModel()
+    bindViewModel<AuthViewModel>() with provider {
+        AuthViewModel(instance())
     }
 }

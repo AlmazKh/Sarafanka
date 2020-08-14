@@ -9,7 +9,7 @@ class MainViewModel(
     private val authInteractor: AuthInteractor
 ) : BaseViewModel() {
     override val loadingState = MutableLiveData(LoadingState.READY)
-    val isLoggedIn = authInteractor.authState
+    val isLoggedIn = authInteractor.isLoggedInLiveData
 
     fun checkAuthUser() {
         authInteractor.isLoggedIn()

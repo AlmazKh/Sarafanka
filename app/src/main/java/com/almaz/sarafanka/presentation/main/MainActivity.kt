@@ -1,13 +1,15 @@
 package com.almaz.sarafanka.presentation.main
 
-import android.content.Intent
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.almaz.sarafanka.R
-import com.almaz.sarafanka.presentation.auth.LoginActivity
 import com.almaz.sarafanka.presentation.base.BaseActivity
 import com.almaz.sarafanka.utils.extensions.observe
+import com.almaz.sarafanka.utils.extensions.toGone
+import com.almaz.sarafanka.utils.extensions.toVisible
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : BaseActivity<MainViewModel>(MainViewModel::class.java) {
 
@@ -32,9 +34,16 @@ class MainActivity : BaseActivity<MainViewModel>(MainViewModel::class.java) {
     private fun navigateByAuthState(isLoggedIn: Boolean) {
         when (isLoggedIn) {
             true -> {
+                bottom_nav.toVisible()
             }
             else -> {
-                startActivity(Intent(this, LoginActivity::class.java))
+                bottom_nav.toGone()
+                val navOptions: NavOptions =
+                    NavOptions.Builder()
+                        .setLaunchSingleTop(true)
+                        .setPopUpTo(R.id.auth_nav_graph, true)
+                        .build()
+                navController.navigate(R.id.auth_nav_graph, null, navOptions)
             }
         }
     }

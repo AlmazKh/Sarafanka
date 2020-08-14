@@ -5,6 +5,7 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/serviceFragment">
 
+
     <fragment
         android:id="@+id/contactsFragment"
         android:name="com.almaz.sarafanka.presentation.contacts.ContactsFragment"
@@ -34,4 +35,55 @@
         android:name="com.almaz.sarafanka.presentation.profile.ProfileFragment"
         android:label="@string/profile_page_title"
         tools:layout="@layout/fragment_profile" />
+
+
+    <navigation
+        android:id="@+id/auth_nav_graph"
+        app:startDestination="@id/enterPhoneFragment">
+        <fragment
+            android:id="@+id/enterPhoneFragment"
+            android:name="com.almaz.sarafanka.presentation.auth.EnterPhoneFragment"
+            android:label="@string/enter_phone"
+            tools:layout="@layout/fragment_enter_phone">
+
+            <action
+                android:id="@+id/action_enterPhoneFragment_to_enterCodeFragment"
+                app:destination="@id/enterCodeFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/enterCodeFragment"
+            android:name="com.almaz.sarafanka.presentation.auth.VerificationCodeFragment"
+            android:label="@string/enter_code"
+            tools:layout="@layout/fragment_verification_code">
+
+            <action
+                android:id="@+id/action_enterCodeFragment_to_enterNameFragment"
+                app:destination="@id/enterNameFragment" />
+
+            <action
+                android:id="@+id/action_enterCodeFragment_to_nav_graph"
+                app:destination="@+id/nav_graph"
+                app:launchSingleTop="true"
+                app:popUpTo="@id/nav_graph"
+                app:popUpToInclusive="true" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/enterNameFragment"
+            android:name="com.almaz.sarafanka.presentation.auth.EnterNameFragment"
+            android:label="@string/enter_name"
+            tools:layout="@layout/fragment_enter_name">
+
+            <action
+                android:id="@+id/action_enterNameFragment_to_enterPhotoFragment"
+                app:destination="@id/enterPhotoFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/enterPhotoFragment"
+            android:name="com.almaz.sarafanka.presentation.auth.UploadPhotoFragment"
+            android:label="@string/enter_photo"
+            tools:layout="@layout/fragment_upload_photo" />
+    </navigation>
 </navigation>

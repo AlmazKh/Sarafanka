@@ -4,6 +4,18 @@
     <string name="your_phone_number">Ваш номер телефона</string>
     <string name="default_country_code">+7</string>
     <string name="next">Далее</string>
+    <string name="approve">Подтвердить</string>
+    <string name="verification_code">Код потверждения</string>
+    <string name="what_is_your_name">Как Вас зовут?</string>
+    <string name="your_name">Ваше имя</string>
+    <string name="upload_photo">Загрузите ваше фото</string>
+    <string name="skip">Пропустить</string>
+    <string name="enter_phone">Enter phone page</string>
+    <string name="enter_code">Enter code page</string>
+    <string name="enter_name">Enter name page</string>
+    <string name="enter_photo">Enter photo page</string>
+    <string name="phone_page_description">Введите ваш номер телефона</string>
+    <string name="verification_page_description">Введите код, который мы отправили на Ваш номер</string>
     <!--    Contacts page -->
     <string name="contacts_page_title">Знакомые</string>
     <!--    Event page -->
