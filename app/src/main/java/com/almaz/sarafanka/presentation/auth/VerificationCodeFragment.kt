@@ -39,8 +39,6 @@ class VerificationCodeFragment : BaseFragment<AuthViewModel>(AuthViewModel::clas
             AuthState.REGISTERED -> {
                 rootActivity.navController.navigate(R.id.action_enterCodeFragment_to_nav_graph)
             }
-            else -> {
-            }
         }
     }
 }

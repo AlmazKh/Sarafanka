@@ -10,6 +10,6 @@ import org.kodein.di.generic.singleton
 
 fun repoModule() = Kodein.Module("repoModule") {
     bind<UserRepository>() with singleton {
-        UserRepositoryImpl(instance(), instance())
+        UserRepositoryImpl(instance(), instance(), instance())
     }
 }

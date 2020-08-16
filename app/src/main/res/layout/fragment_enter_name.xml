@@ -17,13 +17,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/et_verification_code"
+        android:id="@+id/et_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_small_8"
         android:backgroundTint="@color/colorWhite"
         android:hint="@string/your_name"
-        android:inputType="number"
+        android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@id/divider_bottom_of_filed"
         app:layout_constraintEnd_toEndOf="@id/divider_bottom_of_filed"
         app:layout_constraintStart_toStartOf="@id/divider_bottom_of_filed" />

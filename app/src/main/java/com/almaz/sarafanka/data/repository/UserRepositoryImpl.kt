@@ -3,17 +3,25 @@ package com.almaz.sarafanka.data.repository
 import android.content.ContentValues.TAG
 import android.util.Log
 import com.almaz.sarafanka.core.interfaces.UserRepository
+import com.almaz.sarafanka.utils.Response
 import com.google.android.gms.tasks.TaskExecutors
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import java.util.concurrent.TimeUnit
 
+private const val USER_ID = "user_id"
+private const val USER_NAME = "name"
+private const val USER_PHONE = "phone"
+private const val USER_PHOTO = "photo"
+private const val USERS = "users"
 
 class UserRepositoryImpl(
     private val firebaseAuth: FirebaseAuth,
-    private val phoneAuthProvider: PhoneAuthProvider
+    private val phoneAuthProvider: PhoneAuthProvider,
+    private val db: FirebaseFirestore
 ) : UserRepository {
 
     private lateinit var storedVerificationId: String
@@ -22,7 +30,8 @@ class UserRepositoryImpl(
     override suspend fun checkAuthUser(): Boolean = firebaseAuth.currentUser != null
 
     override suspend fun getVerificationCode(phone: String) {
-        phoneAuthProvider.verifyPhoneNumber(phone, 60, TimeUnit.SECONDS, TaskExecutors.MAIN_THREAD,
+        phoneAuthProvider.verifyPhoneNumber(
+            phone, 60, TimeUnit.SECONDS, TaskExecutors.MAIN_THREAD,
             object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
                 override fun onVerificationCompleted(credential: PhoneAuthCredential) {
@@ -92,9 +101,56 @@ class UserRepositoryImpl(
     }*/
     }
 
-    override suspend fun searchUserInDb(phone: String?) {
-        // TODO
+    override suspend fun searchUserInDb(phone: String?): Boolean {
+        return try {
+            val snapshot = db.collection(USERS).whereEqualTo(USER_PHONE, phone).get().await()
+            !snapshot.isEmpty
+        } catch (e: Exception) {
+            false
+        }
     }
 
+    override suspend fun addUserIntoDb(phone: String?, name: String?, photo: String?): Boolean {
+        return try {
+            val userMap = HashMap<String, Any?>()
+            userMap[USER_ID] = firebaseAuth.currentUser?.uid
+            userMap[USER_PHONE] = phone
+            userMap[USER_NAME] = name
+            userMap[USER_PHOTO] = photo
+            db.collection(USERS)
+                .document(firebaseAuth.currentUser?.uid.toString())
+                .set(userMap)
+                .await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    override suspend fun updateUserInfo(
+        phone: String?,
+        name: String?,
+        photo: String?
+    ): Response<Boolean> {
+        return try {
+            val userMap = HashMap<String, Any?>()
+            if (phone != null) {
+                userMap[USER_PHONE] = phone
+            }
+            if (name != null) {
+                userMap[USER_NAME] = name
+            }
+            if (photo != null) {
+                userMap[USER_PHOTO] = photo
+            }
+            db.collection(USERS)
+                .document(firebaseAuth.currentUser?.uid.toString())
+                .update(userMap)
+                .await()
+            return Response.success(true)
+        } catch (e: Exception) {
+            Response.error(e)
+        }
+    }
 }
 

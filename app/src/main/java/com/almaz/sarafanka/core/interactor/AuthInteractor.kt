@@ -4,9 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.almaz.sarafanka.core.interfaces.UserRepository
 import com.almaz.sarafanka.presentation.base.InfoState
-import com.almaz.sarafanka.utils.AuthState
-import com.almaz.sarafanka.utils.codeSended
-import com.almaz.sarafanka.utils.loggedIn
+import com.almaz.sarafanka.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -61,13 +59,28 @@ class AuthInteractor(
                     userRepository.signInWithPhoneAuthCredential(verificationCode)
                 }
             }.onSuccess {
-                isLoggedInLiveData.postValue(true)
-                authState.loggedIn()
-                infoState.successState.postValue("Success auth!")
-                userRepository.searchUserInDb(storedPhoneNumber)
+                if (userRepository.searchUserInDb(storedPhoneNumber)) {
+                    isLoggedInLiveData.postValue(true)
+                    authState.registered()
+                    infoState.successState.postValue("Success auth!")
+                } else {
+                    userRepository.addUserIntoDb(phone = it?.user?.phoneNumber)
+                    authState.loggedIn()
+                }
             }.onFailure {
                 infoState.errorState.postValue("Auth fail. Smth went wrong")
             }
         }
     }
+
+   fun updateUserInfo(infoState: InfoState, phone: String? = null, name: String? = null, photo: String? = null) {
+       launch {
+           val response = withContext(Dispatchers.IO) {
+               userRepository.updateUserInfo(phone, name, photo)
+           }
+           if (response.error != null) {
+               infoState.errorState.postValue("Smth went wrong")
+           }
+       }
+   }
 }

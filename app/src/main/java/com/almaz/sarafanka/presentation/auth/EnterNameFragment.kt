@@ -16,7 +16,12 @@ class EnterNameFragment : BaseFragment<AuthViewModel>(AuthViewModel::class.java)
 
     override fun setupView() {
         btn_next_to_upload_photo.setOnClickListener {
-            rootActivity.navController.navigate(R.id.action_enterNameFragment_to_enterPhotoFragment)
+            if (et_user_name.text.isNullOrBlank()) {
+                showSnackbar("Введите ваше имя")
+            } else {
+                viewModel.updateUserInfo(name = et_user_name.text.toString())
+                rootActivity.navController.navigate(R.id.action_enterNameFragment_to_enterPhotoFragment)
+            }
         }
     }
 }

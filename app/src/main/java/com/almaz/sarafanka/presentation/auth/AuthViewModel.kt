@@ -20,5 +20,7 @@ class AuthViewModel(
         authInteractor.signInWithPhoneAuthCredential(this, verificationCode)
     }
 
-
+    fun updateUserInfo(phone: String? = null, name: String? = null, photo: String? = null) {
+        authInteractor.updateUserInfo(this, phone, name, photo)
+    }
 }

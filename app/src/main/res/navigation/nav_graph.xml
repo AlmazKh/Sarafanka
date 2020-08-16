@@ -84,6 +84,14 @@
             android:id="@+id/enterPhotoFragment"
             android:name="com.almaz.sarafanka.presentation.auth.UploadPhotoFragment"
             android:label="@string/enter_photo"
-            tools:layout="@layout/fragment_upload_photo" />
+            tools:layout="@layout/fragment_upload_photo">
+
+            <action
+                android:id="@+id/action_enterPhotoFragment_to_nav_graph"
+                app:destination="@+id/nav_graph"
+                app:launchSingleTop="true"
+                app:popUpTo="@id/nav_graph"
+                app:popUpToInclusive="true" />
+        </fragment>
     </navigation>
 </navigation>

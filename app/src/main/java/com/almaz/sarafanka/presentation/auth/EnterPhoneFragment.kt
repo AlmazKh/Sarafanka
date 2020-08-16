@@ -18,7 +18,7 @@ class EnterPhoneFragment : BaseFragment<AuthViewModel>(AuthViewModel::class.java
     }
 
     override fun setupView() {
-        et_phone_number.addTextChangedListener(PhoneNumberFormattingTextWatcher())
+//        et_phone_number.addTextChangedListener(PhoneNumberFormattingTextWatcher())
         btn_next_to_verification.setOnClickListener {
             checkPhoneNumber("${et_country_code.text}${et_phone_number.text}")
         }
@@ -33,10 +33,6 @@ class EnterPhoneFragment : BaseFragment<AuthViewModel>(AuthViewModel::class.java
         when (authState) {
             AuthState.CODE_SENDED -> {
                 rootActivity.navController.navigate(R.id.action_enterPhoneFragment_to_enterCodeFragment)
-            }
-            AuthState.ERROR -> {
-            }
-            else -> {
             }
         }
     }
