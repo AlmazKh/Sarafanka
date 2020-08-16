@@ -1,10 +1,14 @@
 package com.almaz.sarafanka.core.interactor
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.almaz.sarafanka.core.interfaces.UserRepository
 import com.almaz.sarafanka.presentation.base.InfoState
-import com.almaz.sarafanka.utils.*
+import com.almaz.sarafanka.utils.AuthState
+import com.almaz.sarafanka.utils.codeSended
+import com.almaz.sarafanka.utils.loggedIn
+import com.almaz.sarafanka.utils.registered
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -73,14 +77,34 @@ class AuthInteractor(
         }
     }
 
-   fun updateUserInfo(infoState: InfoState, phone: String? = null, name: String? = null, photo: String? = null) {
-       launch {
-           val response = withContext(Dispatchers.IO) {
-               userRepository.updateUserInfo(phone, name, photo)
-           }
-           if (response.error != null) {
-               infoState.errorState.postValue("Smth went wrong")
-           }
-       }
-   }
+    fun updateUserInfo(
+        infoState: InfoState,
+        phone: String? = null,
+        name: String? = null,
+        photo: String? = null
+    ) {
+        launch {
+            val response = withContext(Dispatchers.IO) {
+                userRepository.updateUserInfo(phone, name, photo)
+            }
+            if (response.error != null) {
+                infoState.errorState.postValue("Smth went wrong")
+            }
+        }
+    }
+
+    fun loadAvatarIntoStorage(infoState: InfoState, filePath: Uri) {
+        launch {
+            runCatching {
+                withContext(Dispatchers.IO) {
+                    userRepository.loadAvatarIntoStorage(filePath)
+                }
+            }.onSuccess {
+                infoState.successState.postValue("Success loading avatar")
+                authState.postValue(AuthState.REGISTERED)
+            }.onFailure {
+                infoState.errorState.postValue("Fail loading avatar")
+            }
+        }
+    }
 }

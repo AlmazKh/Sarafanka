@@ -40,4 +40,12 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">@dimen/font_normal_20</item>
     </style>
+
+    <style name="CropTheme" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/colorGreen</item>
+        <item name="actionMenuTextColor">@color/colorWhite</item>
+    </style>
 </resources>

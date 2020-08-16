@@ -1,6 +1,7 @@
 package com.almaz.sarafanka.data.repository
 
 import android.content.ContentValues.TAG
+import android.net.Uri
 import android.util.Log
 import com.almaz.sarafanka.core.interfaces.UserRepository
 import com.almaz.sarafanka.utils.Response
@@ -9,8 +10,11 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.HashMap
 
 private const val USER_ID = "user_id"
 private const val USER_NAME = "name"
@@ -21,7 +25,8 @@ private const val USERS = "users"
 class UserRepositoryImpl(
     private val firebaseAuth: FirebaseAuth,
     private val phoneAuthProvider: PhoneAuthProvider,
-    private val db: FirebaseFirestore
+    private val db: FirebaseFirestore,
+    private val storage: FirebaseStorage
 ) : UserRepository {
 
     private lateinit var storedVerificationId: String
@@ -151,6 +156,12 @@ class UserRepositoryImpl(
         } catch (e: Exception) {
             Response.error(e)
         }
+    }
+
+    override suspend fun loadAvatarIntoStorage(filePath: Uri) {
+        val avatarReference = "profile/${UUID.randomUUID()}"
+        updateUserInfo(photo = avatarReference)
+        storage.reference.child(avatarReference).putFile(filePath)
     }
 }
 

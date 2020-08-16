@@ -1,9 +1,9 @@
 package com.almaz.sarafanka.presentation.auth
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.almaz.sarafanka.core.interactor.AuthInteractor
 import com.almaz.sarafanka.presentation.base.BaseViewModel
-import com.almaz.sarafanka.utils.AuthState
 import com.almaz.sarafanka.utils.LoadingState
 
 class AuthViewModel(
@@ -22,5 +22,14 @@ class AuthViewModel(
 
     fun updateUserInfo(phone: String? = null, name: String? = null, photo: String? = null) {
         authInteractor.updateUserInfo(this, phone, name, photo)
+    }
+
+    fun loadAvatarIntoStorage(filePath: Uri) {
+        authInteractor.loadAvatarIntoStorage(this, filePath)
+    }
+
+    fun setIsLoggedInLiveDataTrue() {
+        authInteractor.isLoggedInLiveData.postValue(true)
+        successState.postValue("Success auth")
     }
 }
