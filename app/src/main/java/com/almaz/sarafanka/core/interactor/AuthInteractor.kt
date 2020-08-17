@@ -1,5 +1,6 @@
 package com.almaz.sarafanka.core.interactor
 
+import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -70,6 +71,7 @@ class AuthInteractor(
                 } else {
                     userRepository.addUserIntoDb(phone = it?.user?.phoneNumber)
                     authState.loggedIn()
+                    infoState.successState.postValue("Success creating account! continue for finishing registration")
                 }
             }.onFailure {
                 infoState.errorState.postValue("Auth fail. Smth went wrong")
@@ -93,11 +95,11 @@ class AuthInteractor(
         }
     }
 
-    fun loadAvatarIntoStorage(infoState: InfoState, filePath: Uri) {
+    fun loadAvatarIntoStorage(infoState: InfoState, bitmap: Bitmap) {
         launch {
             runCatching {
                 withContext(Dispatchers.IO) {
-                    userRepository.loadAvatarIntoStorage(filePath)
+                    userRepository.loadAvatarIntoStorage(bitmap)
                 }
             }.onSuccess {
                 infoState.successState.postValue("Success loading avatar")

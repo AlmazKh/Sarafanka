@@ -1,5 +1,6 @@
 package com.almaz.sarafanka.presentation.auth
 
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.almaz.sarafanka.core.interactor.AuthInteractor
@@ -24,8 +25,8 @@ class AuthViewModel(
         authInteractor.updateUserInfo(this, phone, name, photo)
     }
 
-    fun loadAvatarIntoStorage(filePath: Uri) {
-        authInteractor.loadAvatarIntoStorage(this, filePath)
+    fun loadAvatarIntoStorage(bitmap: Bitmap) {
+        authInteractor.loadAvatarIntoStorage(this, bitmap)
     }
 
     fun setIsLoggedInLiveDataTrue() {

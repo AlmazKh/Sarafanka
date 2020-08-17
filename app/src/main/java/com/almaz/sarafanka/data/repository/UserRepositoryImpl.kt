@@ -1,7 +1,7 @@
 package com.almaz.sarafanka.data.repository
 
 import android.content.ContentValues.TAG
-import android.net.Uri
+import android.graphics.Bitmap
 import android.util.Log
 import com.almaz.sarafanka.core.interfaces.UserRepository
 import com.almaz.sarafanka.utils.Response
@@ -12,6 +12,7 @@ import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
+import java.io.ByteArrayOutputStream
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.HashMap
@@ -158,10 +159,15 @@ class UserRepositoryImpl(
         }
     }
 
-    override suspend fun loadAvatarIntoStorage(filePath: Uri) {
+    override suspend fun loadAvatarIntoStorage(bitmap: Bitmap) {
         val avatarReference = "profile/${UUID.randomUUID()}"
         updateUserInfo(photo = avatarReference)
-        storage.reference.child(avatarReference).putFile(filePath)
+        val baos = ByteArrayOutputStream()
+        if(bitmap.byteCount > 15000000)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos)
+        else
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, baos)
+        storage.reference.child(avatarReference).putBytes(baos.toByteArray())
     }
 }
 

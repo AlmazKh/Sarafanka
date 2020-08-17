@@ -7,15 +7,14 @@ import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
+import android.provider.MediaStore
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.almaz.sarafanka.R
 import com.almaz.sarafanka.presentation.base.BaseFragment
-import com.almaz.sarafanka.utils.AuthState
 import com.almaz.sarafanka.utils.extensions.loadCircleImage
-import com.almaz.sarafanka.utils.extensions.observe
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_upload_photo.*
 import java.io.FileNotFoundException
@@ -24,6 +23,7 @@ import java.io.FileNotFoundException
 class UploadPhotoFragment : BaseFragment<AuthViewModel>(AuthViewModel::class.java) {
 
     override val layoutId: Int = R.layout.fragment_upload_photo
+    private var imageUri: Uri? = null
 
     override fun setViewModel() {
         viewModel = ViewModelProvider(rootActivity, this.viewModelFactory)
@@ -35,6 +35,14 @@ class UploadPhotoFragment : BaseFragment<AuthViewModel>(AuthViewModel::class.jav
             askPermission()
         }
         btn_approve_auth.setOnClickListener {
+            imageUri?.let {
+                viewModel.loadAvatarIntoStorage(
+                    MediaStore.Images.Media.getBitmap(
+                        rootActivity.contentResolver, it
+                    )
+                )
+            }
+
             rootActivity.navController.navigate(R.id.action_enterPhotoFragment_to_nav_graph)
             viewModel.setIsLoggedInLiveDataTrue()
         }
@@ -129,7 +137,7 @@ class UploadPhotoFragment : BaseFragment<AuthViewModel>(AuthViewModel::class.jav
          } else*/
         if (resultCode == RESULT_OK) {
             try {
-                val imageUri: Uri? = data?.data
+                imageUri = data?.data
                 // Setting image on image view using Bitmap
                 /* iv_upload_avatar.setImageBitmap(
                      MediaStore.Images.Media.getBitmap(
@@ -138,10 +146,7 @@ class UploadPhotoFragment : BaseFragment<AuthViewModel>(AuthViewModel::class.jav
                      )
                  )*/
                 iv_upload_avatar.loadCircleImage(imageUri.toString())
-                imageUri?.let {
-                    viewModel.loadAvatarIntoStorage(it)
-                    btn_approve_auth.text = getString(R.string.next)
-                }
+                btn_approve_auth.text = getString(R.string.next)
                 /*CropImage.activity(imageUri)
                     .setCropMenuCropButtonTitle("Сохранить")
                     .setFixAspectRatio(true)
@@ -155,6 +160,4 @@ class UploadPhotoFragment : BaseFragment<AuthViewModel>(AuthViewModel::class.jav
             }
         }
     }
-
-
 }
