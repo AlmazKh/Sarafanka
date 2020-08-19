@@ -1,4 +1,4 @@
-package com.almaz.sarafanka.di
+package com.almaz.sarafanka.utils
 
 import android.content.Context
 import com.bumptech.glide.Glide
