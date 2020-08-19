@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.almaz.sarafanka.SarafankaApp
 import com.almaz.sarafanka.presentation.main.MainActivity
-import com.almaz.sarafanka.utils.LoadingState
+import com.almaz.sarafanka.utils.states.LoadingState
 import com.almaz.sarafanka.utils.extensions.observe
 import com.google.android.material.snackbar.Snackbar
 import org.kodein.di.Kodein

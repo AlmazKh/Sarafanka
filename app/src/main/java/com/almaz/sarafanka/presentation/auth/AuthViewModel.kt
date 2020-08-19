@@ -1,11 +1,10 @@
 package com.almaz.sarafanka.presentation.auth
 
 import android.graphics.Bitmap
-import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.almaz.sarafanka.core.interactor.AuthInteractor
 import com.almaz.sarafanka.presentation.base.BaseViewModel
-import com.almaz.sarafanka.utils.LoadingState
+import com.almaz.sarafanka.utils.states.LoadingState
 
 class AuthViewModel(
     private val authInteractor: AuthInteractor

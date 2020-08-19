@@ -1,4 +1,4 @@
-package com.almaz.sarafanka.utils
+package com.almaz.sarafanka.utils.states
 
 import androidx.lifecycle.MutableLiveData
 

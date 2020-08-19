@@ -3,7 +3,7 @@ package com.almaz.sarafanka.presentation.auth
 import androidx.lifecycle.ViewModelProvider
 import com.almaz.sarafanka.R
 import com.almaz.sarafanka.presentation.base.BaseFragment
-import com.almaz.sarafanka.utils.AuthState
+import com.almaz.sarafanka.utils.states.AuthState
 import com.almaz.sarafanka.utils.extensions.observe
 import kotlinx.android.synthetic.main.fragment_verification_code.*
 

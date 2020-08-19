@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.almaz.sarafanka.SarafankaApp
-import com.almaz.sarafanka.utils.LoadingState
+import com.almaz.sarafanka.utils.states.LoadingState
 import com.almaz.sarafanka.utils.extensions.observe
 import com.almaz.sarafanka.utils.extensions.toGone
 import com.almaz.sarafanka.utils.extensions.toVisible

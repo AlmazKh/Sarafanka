@@ -1,15 +1,14 @@
 package com.almaz.sarafanka.core.interactor
 
 import android.graphics.Bitmap
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.almaz.sarafanka.core.interfaces.UserRepository
 import com.almaz.sarafanka.presentation.base.InfoState
-import com.almaz.sarafanka.utils.AuthState
-import com.almaz.sarafanka.utils.codeSended
-import com.almaz.sarafanka.utils.loggedIn
-import com.almaz.sarafanka.utils.registered
+import com.almaz.sarafanka.utils.states.AuthState
+import com.almaz.sarafanka.utils.states.codeSended
+import com.almaz.sarafanka.utils.states.loggedIn
+import com.almaz.sarafanka.utils.states.registered
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
