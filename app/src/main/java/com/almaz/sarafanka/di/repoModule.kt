@@ -1,6 +1,5 @@
 package com.almaz.sarafanka.di
 
-import com.almaz.sarafanka.core.interactor.AuthInteractor
 import com.almaz.sarafanka.core.interfaces.UserRepository
 import com.almaz.sarafanka.data.repository.UserRepositoryImpl
 import org.kodein.di.Kodein

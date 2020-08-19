@@ -26,4 +26,7 @@
     <string name="notification_page_title">Уведомления</string>
     <!--    Profile page -->
     <string name="profile_page_title">Профиль</string>
+    <string name="contact_with_someone">Связаться</string>
+    <string name="user_services">Услуги пользователя</string>
+    <string name="examples">Примеры</string>
 </resources>

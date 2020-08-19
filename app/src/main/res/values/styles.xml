@@ -12,6 +12,23 @@
         <item name="android:textSize">@dimen/font_large_28</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
+        <item name="fontFamily">@font/roboto_bold</item>
+    </style>
+
+    <style name="Subtitle">
+        <item name="android:textColor">@color/colorTitle</item>
+        <item name="android:textSize">@dimen/font_normal_20</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="TextDescription">
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:textSize">@dimen/font_nano_14</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="fontFamily">@font/roboto</item>
     </style>
 
     <style name="AuthPageDivider">

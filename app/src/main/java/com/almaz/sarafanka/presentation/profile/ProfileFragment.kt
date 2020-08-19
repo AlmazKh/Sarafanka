@@ -1,32 +1,26 @@
 package com.almaz.sarafanka.presentation.profile
 
-import androidx.lifecycle.ViewModelProviders
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.almaz.sarafanka.R
+import com.almaz.sarafanka.core.model.User
+import com.almaz.sarafanka.presentation.base.BaseFragment
+import com.almaz.sarafanka.utils.extensions.loadCircleImage
+import com.almaz.sarafanka.utils.extensions.observe
+import kotlinx.android.synthetic.main.fragment_profile.*
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : BaseFragment<ProfileViewModel>(ProfileViewModel::class.java) {
+    override val layoutId: Int = R.layout.fragment_profile
 
-    companion object {
-        fun newInstance() = ProfileFragment()
+    override fun setupView() {
+
     }
 
-    private lateinit var viewModel: ProfileViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+    override fun subscribe(viewModel: ProfileViewModel) {
+        super.subscribe(viewModel)
+        observe(viewModel.profileInfoLiveData, ::bindProfileInfo)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
-        // TODO: Use the ViewModel
+    private fun bindProfileInfo(user: User) {
+        tv_user_name.text = user.name
+        user.photo?.let { iv_user_avatar.loadCircleImage(it) }
     }
-
 }

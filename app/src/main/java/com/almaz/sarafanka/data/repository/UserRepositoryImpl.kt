@@ -4,13 +4,16 @@ import android.content.ContentValues.TAG
 import android.graphics.Bitmap
 import android.util.Log
 import com.almaz.sarafanka.core.interfaces.UserRepository
+import com.almaz.sarafanka.core.model.User
 import com.almaz.sarafanka.utils.Response
 import com.google.android.gms.tasks.TaskExecutors
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 import java.util.*
@@ -163,11 +166,35 @@ class UserRepositoryImpl(
         val avatarReference = "profile/${UUID.randomUUID()}"
         updateUserInfo(photo = avatarReference)
         val baos = ByteArrayOutputStream()
-        if(bitmap.byteCount > 15000000)
+        if (bitmap.byteCount > 15000000)
             bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos)
         else
             bitmap.compress(Bitmap.CompressFormat.JPEG, 90, baos)
         storage.reference.child(avatarReference).putBytes(baos.toByteArray())
     }
-}
 
+    override suspend fun getCurrentUser(): User {
+        return try {
+            val snapshot =
+                db.collection(USERS)
+                    .whereEqualTo(USER_ID, firebaseAuth.currentUser?.uid)
+                    .get()
+                    .await()
+            mapDocumentToUser(snapshot.first())
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
+    private fun mapDocumentToUser(documentSnapshot: QueryDocumentSnapshot): User =
+        User(
+            documentSnapshot.get(USER_ID).toString(),
+            documentSnapshot.get(USER_PHONE).toString(),
+            documentSnapshot.get(USER_NAME).toString(),
+            getDownloadablePhotoUrl(documentSnapshot.get(USER_PHOTO).toString())
+        )
+
+    private fun getDownloadablePhotoUrl(url: String): StorageReference {
+        return storage.reference.child(url)
+    }
+}

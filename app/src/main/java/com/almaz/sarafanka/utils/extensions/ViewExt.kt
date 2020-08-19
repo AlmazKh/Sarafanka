@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
+import com.google.firebase.storage.StorageReference
 
 fun View.toVisible() {
     this.visibility = View.VISIBLE
@@ -35,6 +36,13 @@ fun ImageView.loadCircleImage(url: String) =
         .into(this)
 
 fun ImageView.loadCircleImage(@DrawableRes resId: Int) =
+    Glide.with(this)
+        .load(resId)
+        .centerCrop()
+        .circleCrop()
+        .into(this)
+
+fun ImageView.loadCircleImage(resId: StorageReference) =
     Glide.with(this)
         .load(resId)
         .centerCrop()
