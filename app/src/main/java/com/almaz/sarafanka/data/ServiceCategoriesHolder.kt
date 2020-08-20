@@ -15,4 +15,13 @@ class ServiceCategoriesHolder {
     }
 
     fun getCategories(): List<ServiceCategory> = categories
+
+    fun getCategoryById(id: Int): ServiceCategory? {
+        getCategories().forEach { category ->
+            if (category.id == id) {
+                return category
+            }
+        }
+        return null
+    }
 }

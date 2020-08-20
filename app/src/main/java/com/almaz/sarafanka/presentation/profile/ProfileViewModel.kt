@@ -9,7 +9,7 @@ import com.almaz.sarafanka.utils.states.LoadingState
 class ProfileViewModel(private val profileInteractor: ProfileInteractor) : BaseViewModel() {
     override val loadingState = MutableLiveData(LoadingState.READY)
     val profileInfoLiveData = profileInteractor.profileInfoLiveData
-    val profileServicesLiveData = MutableLiveData<Service>()
+    val profileServicesLiveData = profileInteractor.profileServicesLiveData
 
     init {
         getProfileInfo()
@@ -21,6 +21,6 @@ class ProfileViewModel(private val profileInteractor: ProfileInteractor) : BaseV
     }
 
     fun getProfileServices() {
-
+        profileInteractor.getProfileServices(this.errorState)
     }
 }

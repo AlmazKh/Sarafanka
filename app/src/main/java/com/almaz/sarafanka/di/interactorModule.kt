@@ -12,6 +12,6 @@ fun interactorModule() = Kodein.Module("interactorModule") {
         AuthInteractor(instance())
     }
     bind<ProfileInteractor>() with singleton {
-        ProfileInteractor(instance())
+        ProfileInteractor(instance(), instance())
     }
 }

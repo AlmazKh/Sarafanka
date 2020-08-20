@@ -4,6 +4,8 @@ import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.firebase.storage.StorageReference
 
 fun View.toVisible() {
@@ -42,9 +44,21 @@ fun ImageView.loadCircleImage(@DrawableRes resId: Int) =
         .circleCrop()
         .into(this)
 
-fun ImageView.loadCircleImage(resId: StorageReference) =
+fun ImageView.loadCircleImage(reference: StorageReference) =
     Glide.with(this)
-        .load(resId)
+        .load(reference)
         .centerCrop()
         .circleCrop()
+        .into(this)
+
+fun ImageView.loadImageWithCustomCorners(@DrawableRes resId: Int, radius: Int) =
+    Glide.with(this)
+        .load(resId)
+        .transform(CenterCrop(), RoundedCorners(radius))
+        .into(this)
+
+fun ImageView.loadImageWithCustomCorners(reference: StorageReference, radius: Int) =
+    Glide.with(this)
+        .load(reference)
+        .transform(CenterCrop(), RoundedCorners(radius))
         .into(this)

@@ -6,6 +6,7 @@ import android.util.Log
 import com.almaz.sarafanka.core.interfaces.UserRepository
 import com.almaz.sarafanka.core.model.User
 import com.almaz.sarafanka.utils.Response
+import com.almaz.sarafanka.utils.extensions.getDownloadablePhotoUrl
 import com.google.android.gms.tasks.TaskExecutors
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -186,15 +187,15 @@ class UserRepositoryImpl(
         }
     }
 
+    override suspend fun getCurrentUserId(): String? {
+        return firebaseAuth.currentUser?.uid
+    }
+
     private fun mapDocumentToUser(documentSnapshot: QueryDocumentSnapshot): User =
         User(
             documentSnapshot.get(USER_ID).toString(),
             documentSnapshot.get(USER_PHONE).toString(),
             documentSnapshot.get(USER_NAME).toString(),
-            getDownloadablePhotoUrl(documentSnapshot.get(USER_PHOTO).toString())
+            storage.getDownloadablePhotoUrl(documentSnapshot.get(USER_PHOTO).toString())
         )
-
-    private fun getDownloadablePhotoUrl(url: String): StorageReference {
-        return storage.reference.child(url)
-    }
 }
