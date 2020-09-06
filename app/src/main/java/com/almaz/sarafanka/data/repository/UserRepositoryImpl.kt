@@ -191,6 +191,19 @@ class UserRepositoryImpl(
         return firebaseAuth.currentUser?.uid
     }
 
+    override suspend fun getUserById(userId: String): User {
+        return try {
+            val snapshot =
+                db.collection(USERS)
+                    .whereEqualTo(USER_ID, userId)
+                    .get()
+                    .await()
+            mapDocumentToUser(snapshot.first())
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
     private fun mapDocumentToUser(documentSnapshot: QueryDocumentSnapshot): User =
         User(
             documentSnapshot.get(USER_ID).toString(),

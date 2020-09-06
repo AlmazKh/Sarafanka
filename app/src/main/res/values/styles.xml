@@ -58,6 +58,29 @@
         <item name="android:textSize">@dimen/font_normal_20</item>
     </style>
 
+    <style name="ButtonWithIcon" parent="Widget.MaterialComponents.Button.Icon">
+        <item name="android:backgroundTint">@color/colorPlaceholder</item>
+        <item name="android:elevation">4dp</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/colorTitle</item>
+        <item name="android:textSize">@dimen/font_nano_14</item>
+        <item name="cornerRadius">10dp</item>
+        <item name="iconGravity">end</item>
+        <item name="iconTintMode">multiply</item>
+    </style>
+
+    <style name="Marker">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingHorizontal" tools:targetApi="o">@dimen/spacing_small_8</item>
+        <item name="android:paddingVertical" tools:targetApi="o">2dp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">@dimen/font_tiny_16</item>
+    </style>
+
     <style name="CropTheme" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

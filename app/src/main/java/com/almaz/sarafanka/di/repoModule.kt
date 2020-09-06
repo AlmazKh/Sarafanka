@@ -14,6 +14,6 @@ fun repoModule() = Kodein.Module("repoModule") {
         UserRepositoryImpl(instance(), instance(), instance(), instance())
     }
     bind<ServiceRepository>() with singleton {
-        ServiceRepositoryImpl(instance(), instance(), instance())
+        ServiceRepositoryImpl(instance(), instance(), instance(), instance())
     }
 }

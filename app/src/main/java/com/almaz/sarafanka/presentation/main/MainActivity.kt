@@ -2,7 +2,6 @@ package com.almaz.sarafanka.presentation.main
 
 import android.os.Build
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
@@ -36,10 +35,11 @@ class MainActivity : BaseActivity<MainViewModel>(MainViewModel::class.java) {
         observe(viewModel.isLoggedIn, ::navigateByAuthState)
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun setUpStatusBar() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorWhite)
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
     }
 
     private fun navigateByAuthState(isLoggedIn: Boolean) {

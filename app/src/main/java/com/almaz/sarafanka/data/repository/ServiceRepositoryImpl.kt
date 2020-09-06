@@ -1,8 +1,10 @@
 package com.almaz.sarafanka.data.repository
 
 import com.almaz.sarafanka.core.interfaces.ServiceRepository
+import com.almaz.sarafanka.core.interfaces.UserRepository
 import com.almaz.sarafanka.core.model.Review
 import com.almaz.sarafanka.core.model.Service
+import com.almaz.sarafanka.core.model.User
 import com.almaz.sarafanka.data.ServiceCategoriesHolder
 import com.almaz.sarafanka.utils.extensions.getDownloadablePhotoUrl
 import com.google.firebase.firestore.FirebaseFirestore
@@ -32,7 +34,8 @@ private const val REVIEW_WRITER_ID = "writer_id"
 class ServiceRepositoryImpl(
     private val db: FirebaseFirestore,
     private val storage: FirebaseStorage,
-    private val serviceCategoriesHolder: ServiceCategoriesHolder
+    private val serviceCategoriesHolder: ServiceCategoriesHolder,
+    private val userRepository: UserRepository
 ) : ServiceRepository {
     override suspend fun getServicesByUserId(id: String): List<Service> {
         return try {
@@ -74,17 +77,17 @@ class ServiceRepositoryImpl(
             .get()
             .await()
         return snapshot.map {
-            mapDocumentToReview(it)
+            val user = userRepository.getUserById(it.get(REVIEW_WRITER_ID).toString())
+            mapDocumentToReview(it, user)
         }
-
     }
 
-    private fun mapDocumentToReview(documentSnapshot: QueryDocumentSnapshot): Review =
+    private fun mapDocumentToReview(documentSnapshot: QueryDocumentSnapshot, user: User): Review =
         Review(
             id = documentSnapshot.get(REVIEW_ID).toString(),
             description = documentSnapshot.get(REVIEW_DESCRIPTION).toString(),
             isRecommended = documentSnapshot.get(REVIEW_IS_RECOMMENDED).toString().toBoolean(),
-            inContacts = null,
+            inContacts = true, // TODO
             photo = (documentSnapshot.get(REVIEW_PHOTO) as List<*>).map {
                 storage.getDownloadablePhotoUrl(
                     it.toString()
@@ -92,6 +95,6 @@ class ServiceRepositoryImpl(
             },
             service_price = documentSnapshot.get(REVIEW_SERVICE_PRICE).toString().toInt(),
             serviceId = documentSnapshot.get(REVIEW_SERVICE_ID).toString(),
-            writerId = documentSnapshot.get(REVIEW_WRITER_ID).toString()
+            writer = user
         )
 }

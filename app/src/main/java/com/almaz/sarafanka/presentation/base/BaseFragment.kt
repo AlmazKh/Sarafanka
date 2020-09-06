@@ -49,6 +49,11 @@ abstract class BaseFragment<T : BaseViewModel>(private val classT: Class<T>) : F
         setupView()
     }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        subscribe(viewModel)
+    }
+
     open fun subscribe(viewModel: T) {
         observe(viewModel.loadingState, ::bindLoadingState)
     }

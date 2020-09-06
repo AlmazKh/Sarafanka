@@ -11,5 +11,5 @@ data class Review(
     val photo: @RawValue List<StorageReference>,
     val service_price: Int?,
     val serviceId: String,
-    val writerId: String
+    val writer: User
 )

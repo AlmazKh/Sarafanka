@@ -15,7 +15,7 @@ import com.almaz.sarafanka.utils.extensions.toVisible
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_profile_services.view.*
 
-class ProfileServicesAdapter :
+class ProfileServicesAdapter(private val serviceLambda: (Service) -> Unit) :
     ListAdapter<Service, ProfileServicesAdapter.ServiceViewHolder>(ServiceDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ServiceViewHolder =
@@ -26,6 +26,9 @@ class ProfileServicesAdapter :
 
     override fun onBindViewHolder(holder: ServiceViewHolder, position: Int) {
         holder.bind(getItem(position))
+        holder.itemView.setOnClickListener {
+            serviceLambda.invoke(getItem(position))
+        }
     }
 
     class ServiceViewHolder(override val containerView: View) :

@@ -16,4 +16,5 @@ interface UserRepository {
     suspend fun loadAvatarIntoStorage(bitmap: Bitmap)
     suspend fun getCurrentUser(): User
     suspend fun getCurrentUserId(): String?
+    suspend fun getUserById(userId: String): User
 }

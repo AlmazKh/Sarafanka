@@ -34,7 +34,23 @@
         android:id="@+id/profileFragment"
         android:name="com.almaz.sarafanka.presentation.profile.ProfileFragment"
         android:label="@string/profile_page_title"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+
+        <action
+            android:id="@+id/action_profileFragment_to_serviceDetailsFragment"
+            app:destination="@id/serviceDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/serviceDetailsFragment"
+        android:name="com.almaz.sarafanka.presentation.profile.ServiceDetailsFragment"
+        android:label="Service details"
+        tools:layout="@layout/fragment_service_details">
+
+        <argument
+            android:name="arg_service"
+            app:argType="com.almaz.sarafanka.core.model.Service" />
+    </fragment>
 
 
     <navigation
