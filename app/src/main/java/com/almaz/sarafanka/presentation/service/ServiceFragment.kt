@@ -1,33 +1,42 @@
 package com.almaz.sarafanka.presentation.service
 
-import androidx.lifecycle.ViewModelProviders
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.core.widget.addTextChangedListener
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.almaz.sarafanka.R
+import com.almaz.sarafanka.core.model.Service
+import com.almaz.sarafanka.presentation.base.BaseFragment
+import com.almaz.sarafanka.utils.extensions.observe
+import kotlinx.android.synthetic.main.fragment_service.*
 
-class ServiceFragment : Fragment() {
+class ServiceFragment : BaseFragment<ServiceViewModel>(ServiceViewModel::class.java) {
 
-    companion object {
-        fun newInstance() =
-            ServiceFragment()
+    private val servicesAdapter = ServicesAdapter {
+        rootActivity.navController.navigate(
+            R.id.action_profileFragment_to_serviceDetailsFragment,
+            bundleOf("service" to it)
+        )
     }
 
-    private lateinit var viewModel: ServiceViewModel
+    override val layoutId = R.layout.fragment_service
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_service, container, false)
+    override fun setupView() {
+        rv_services.layoutManager = LinearLayoutManager(context)
+        rv_services.adapter = servicesAdapter
+        et_search_services.addTextChangedListener {
+            servicesAdapter.filter.filter(it)
+        }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ServiceViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun subscribe(viewModel: ServiceViewModel) {
+        super.subscribe(viewModel)
+        observe(viewModel.servicesLiveData, ::bindServices)
     }
+
+    private fun bindServices(services: List<Service>) {
+        servicesAdapter.submitGlobalList(services)
+        servicesAdapter.notifyDataSetChanged()
+    }
+
 
 }

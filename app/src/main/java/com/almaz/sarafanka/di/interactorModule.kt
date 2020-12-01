@@ -2,6 +2,7 @@ package com.almaz.sarafanka.di
 
 import com.almaz.sarafanka.core.interactor.AuthInteractor
 import com.almaz.sarafanka.core.interactor.ProfileInteractor
+import com.almaz.sarafanka.core.interactor.ServiceInteractor
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -13,5 +14,8 @@ fun interactorModule() = Kodein.Module("interactorModule") {
     }
     bind<ProfileInteractor>() with singleton {
         ProfileInteractor(instance(), instance())
+    }
+    bind<ServiceInteractor>() with singleton {
+        ServiceInteractor(instance())
     }
 }

@@ -52,6 +52,20 @@ class ServiceRepositoryImpl(
         }
     }
 
+    override suspend fun getServices(): List<Service> {
+        return try {
+            val snapshot =
+                db.collection(SERVICES)
+                    .get()
+                    .await()
+            snapshot.map {
+                mapDocumentToService(it)
+            }
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
     private suspend fun mapDocumentToService(documentSnapshot: QueryDocumentSnapshot): Service =
         Service(
             id = documentSnapshot.get(SERVICE_ID).toString(),

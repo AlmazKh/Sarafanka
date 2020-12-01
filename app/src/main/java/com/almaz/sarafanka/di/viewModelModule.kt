@@ -5,6 +5,7 @@ import com.almaz.sarafanka.presentation.auth.AuthViewModel
 import com.almaz.sarafanka.presentation.contacts.ContactsViewModel
 import com.almaz.sarafanka.presentation.main.MainViewModel
 import com.almaz.sarafanka.presentation.profile.ProfileViewModel
+import com.almaz.sarafanka.presentation.service.ServiceViewModel
 import com.almaz.sarafanka.utils.ViewModelFactory
 import com.almaz.sarafanka.utils.extensions.bindViewModel
 import org.kodein.di.Kodein
@@ -31,5 +32,8 @@ fun viewModelModule() = Kodein.Module(name = "viewModelModule") {
     }
     bindViewModel<ContactsViewModel>() with provider {
         ContactsViewModel()
+    }
+    bindViewModel<ServiceViewModel>() with provider {
+        ServiceViewModel(instance())
     }
 }

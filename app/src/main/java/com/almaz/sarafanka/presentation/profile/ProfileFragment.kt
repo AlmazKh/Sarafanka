@@ -6,12 +6,13 @@ import com.almaz.sarafanka.R
 import com.almaz.sarafanka.core.model.Service
 import com.almaz.sarafanka.core.model.User
 import com.almaz.sarafanka.presentation.base.BaseFragment
+import com.almaz.sarafanka.presentation.service.ServicesAdapter
 import com.almaz.sarafanka.utils.extensions.loadCircleImage
 import com.almaz.sarafanka.utils.extensions.observe
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : BaseFragment<ProfileViewModel>(ProfileViewModel::class.java) {
-    private val servicesAdapter = ProfileServicesAdapter {
+    private val servicesAdapter = ServicesAdapter {
         rootActivity.navController.navigate(
             R.id.action_profileFragment_to_serviceDetailsFragment,
             bundleOf("service" to it)
@@ -36,7 +37,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(ProfileViewModel::class.j
     }
 
     private fun bindProfileServices(services: List<Service>) {
-        servicesAdapter.submitList(services)
+        servicesAdapter.submitGlobalList(services)
         servicesAdapter.notifyDataSetChanged()
     }
 }
