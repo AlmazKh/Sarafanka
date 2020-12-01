@@ -3,8 +3,8 @@ package com.almaz.sarafanka.presentation.auth
 import androidx.lifecycle.ViewModelProvider
 import com.almaz.sarafanka.R
 import com.almaz.sarafanka.presentation.base.BaseFragment
-import com.almaz.sarafanka.utils.states.AuthState
 import com.almaz.sarafanka.utils.extensions.observe
+import com.almaz.sarafanka.utils.states.AuthState
 import kotlinx.android.synthetic.main.fragment_enter_phone.*
 
 class EnterPhoneFragment : BaseFragment<AuthViewModel>(AuthViewModel::class.java) {
@@ -31,7 +31,9 @@ class EnterPhoneFragment : BaseFragment<AuthViewModel>(AuthViewModel::class.java
     private fun bindAuthState(authState: AuthState) {
         when (authState) {
             AuthState.CODE_SENDED -> {
-                rootActivity.navController.navigate(R.id.action_enterPhoneFragment_to_enterCodeFragment)
+                if (rootActivity.navController.currentDestination?.id == R.id.enterPhoneFragment) {
+                    rootActivity.navController.navigate(R.id.action_enterPhoneFragment_to_enterCodeFragment)
+                }
             }
         }
     }

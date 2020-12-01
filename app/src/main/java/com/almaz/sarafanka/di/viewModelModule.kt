@@ -2,6 +2,7 @@ package com.almaz.sarafanka.di
 
 import androidx.lifecycle.ViewModelProvider
 import com.almaz.sarafanka.presentation.auth.AuthViewModel
+import com.almaz.sarafanka.presentation.contacts.ContactsViewModel
 import com.almaz.sarafanka.presentation.main.MainViewModel
 import com.almaz.sarafanka.presentation.profile.ProfileViewModel
 import com.almaz.sarafanka.utils.ViewModelFactory
@@ -27,5 +28,8 @@ fun viewModelModule() = Kodein.Module(name = "viewModelModule") {
     }
     bindViewModel<ProfileViewModel>() with provider {
         ProfileViewModel(instance())
+    }
+    bindViewModel<ContactsViewModel>() with provider {
+        ContactsViewModel()
     }
 }

@@ -3,8 +3,8 @@ package com.almaz.sarafanka.presentation.auth
 import androidx.lifecycle.ViewModelProvider
 import com.almaz.sarafanka.R
 import com.almaz.sarafanka.presentation.base.BaseFragment
-import com.almaz.sarafanka.utils.states.AuthState
 import com.almaz.sarafanka.utils.extensions.observe
+import com.almaz.sarafanka.utils.states.AuthState
 import kotlinx.android.synthetic.main.fragment_verification_code.*
 
 class VerificationCodeFragment : BaseFragment<AuthViewModel>(AuthViewModel::class.java) {
@@ -32,12 +32,14 @@ class VerificationCodeFragment : BaseFragment<AuthViewModel>(AuthViewModel::clas
     }
 
     private fun bindAuthState(authState: AuthState) {
-        when (authState) {
-            AuthState.LOGGEDIN -> {
-                rootActivity.navController.navigate(R.id.action_enterCodeFragment_to_enterNameFragment)
-            }
-            AuthState.REGISTERED -> {
-                rootActivity.navController.navigate(R.id.action_enterCodeFragment_to_nav_graph)
+        if (rootActivity.navController.currentDestination?.id == R.id.enterCodeFragment) {
+            when (authState) {
+                AuthState.LOGGEDIN -> {
+                    rootActivity.navController.navigate(R.id.action_enterCodeFragment_to_enterNameFragment)
+                }
+                AuthState.REGISTERED -> {
+                    rootActivity.navController.navigate(R.id.action_enterCodeFragment_to_nav_graph)
+                }
             }
         }
     }
