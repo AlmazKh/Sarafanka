@@ -19,7 +19,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(ProfileViewModel::class.j
     private val servicesAdapter = ServicesAdapter {
         rootActivity.navController.navigate(
             R.id.action_profileFragment_to_serviceDetailsFragment,
-            bundleOf("service" to it)
+            bundleOf("my_service" to it)
         )
     }
     override val layoutId: Int = R.layout.fragment_profile
