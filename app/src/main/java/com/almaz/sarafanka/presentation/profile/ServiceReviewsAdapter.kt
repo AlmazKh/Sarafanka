@@ -45,7 +45,7 @@ class ServiceReviewsAdapter :
             itemView.tv_review_description.text = review.description
             with(itemView.rv_review_image_list) {
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-                adapter = ImageListAdapter(review.photo)
+                adapter = review.photo?.let { ImageListAdapter(it) }
             }
             itemView.tv_price.text = "Цена: ${review.service_price} руб."
         }

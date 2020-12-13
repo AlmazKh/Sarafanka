@@ -8,7 +8,7 @@ data class Review(
     val description: String,
     val isRecommended: Boolean,
     val inContacts: Boolean?,
-    val photo: @RawValue List<StorageReference>,
+    val photo: @RawValue List<StorageReference>? = null,
     val service_price: Int?,
     val serviceId: String,
     val writer: User

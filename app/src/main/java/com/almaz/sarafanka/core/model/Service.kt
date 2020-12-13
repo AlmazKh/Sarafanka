@@ -7,7 +7,7 @@ import kotlinx.android.parcel.RawValue
 
 @Parcelize
 data class Service(
-    val id: String,
+    val id: String?,
     val category: @RawValue ServiceCategory,
     val subcategory: String,
     val photo: @RawValue List<StorageReference>? = null,

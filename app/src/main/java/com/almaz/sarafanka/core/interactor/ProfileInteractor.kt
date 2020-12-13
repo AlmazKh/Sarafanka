@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import com.almaz.sarafanka.core.interfaces.ServiceRepository
 import com.almaz.sarafanka.core.interfaces.UserRepository
 import com.almaz.sarafanka.core.model.Service
+import com.almaz.sarafanka.core.model.ServiceCategory
 import com.almaz.sarafanka.core.model.User
+import com.almaz.sarafanka.presentation.base.InfoState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -17,6 +19,8 @@ class ProfileInteractor(
 
     val profileInfoLiveData = MutableLiveData<User>()
     val profileServicesLiveData = MutableLiveData<List<Service>>()
+    val servicesCategoriesLiveData = MutableLiveData<List<ServiceCategory>>()
+    val servicePublishedLiveData = MutableLiveData<Boolean>(false)
 
     fun getProfileInfo(errorState: MutableLiveData<String>, userId: String? = null) {
         launch {
@@ -71,6 +75,30 @@ class ProfileInteractor(
         launch {
             withContext(Dispatchers.IO) {
                 userRepository.logout()
+            }
+        }
+    }
+
+    fun getServiceCategories() {
+        launch {
+            withContext(Dispatchers.IO) {
+                servicesCategoriesLiveData.postValue(
+                    serviceRepository.getServiceCategories()
+                )
+            }
+        }
+    }
+
+    fun publishService(infoState: InfoState, category: String, profession: String, description: String?) {
+        launch {
+            val response = withContext(Dispatchers.IO) {
+                serviceRepository.publishService(category, profession, description)
+            }
+            if (response.error != null) {
+                infoState.errorState.postValue("Не удалось опубликовать услугу. Попробуйте снова")
+            } else {
+                servicePublishedLiveData.postValue(true)
+                infoState.successState.postValue("Услуга успешно опубликована")
             }
         }
     }
