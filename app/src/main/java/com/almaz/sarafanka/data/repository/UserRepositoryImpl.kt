@@ -39,6 +39,10 @@ class UserRepositoryImpl(
 
     override suspend fun checkAuthUser(): Boolean = firebaseAuth.currentUser != null
 
+    override suspend fun logout() {
+        firebaseAuth.signOut()
+    }
+
     override suspend fun getVerificationCode(phone: String) {
         phoneAuthProvider.verifyPhoneNumber(
             phone, 60, TimeUnit.SECONDS, TaskExecutors.MAIN_THREAD,

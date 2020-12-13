@@ -18,11 +18,17 @@ class ProfileInteractor(
     val profileInfoLiveData = MutableLiveData<User>()
     val profileServicesLiveData = MutableLiveData<List<Service>>()
 
-    fun getProfileInfo(errorState: MutableLiveData<String>) {
+    fun getProfileInfo(errorState: MutableLiveData<String>, userId: String? = null) {
         launch {
             runCatching {
                 withContext(Dispatchers.IO) {
-                    userRepository.getCurrentUser()
+                    if (userId != null) {
+                        userRepository.getUserById(userId)
+                    } else {
+                        userRepository.getCurrentUserId()?.let {
+                            userRepository.getUserById(it)
+                        }
+                    }
                 }
             }.onSuccess {
                 profileInfoLiveData.postValue(it)
@@ -33,18 +39,38 @@ class ProfileInteractor(
         }
     }
 
-    fun getProfileServices(errorState: MutableLiveData<String>) {
+    fun getProfileServices(errorState: MutableLiveData<String>, userId: String? = null) {
         launch {
             runCatching {
                 withContext(Dispatchers.IO) {
-                    userRepository.getCurrentUserId()?.let {
-                        serviceRepository.getServicesByUserId(it)
+                    if (userId != null) {
+                        serviceRepository.getServicesByUserId(userId)
+                    } else {
+                        userRepository.getCurrentUserId()?.let {
+                            serviceRepository.getServicesByUserId(it)
+                        }
                     }
                 }
             }.onSuccess {
                 profileServicesLiveData.postValue(it)
             }.onFailure {
                 errorState.postValue(it.message)
+            }
+        }
+    }
+
+    fun isCurrentUserProfile(userId: String): Boolean {
+        var isCurrentUser = false
+        launch {
+            isCurrentUser = userId == userRepository.getCurrentUserId()
+        }
+        return isCurrentUser
+    }
+
+    fun logout() {
+        launch {
+            withContext(Dispatchers.IO) {
+                userRepository.logout()
             }
         }
     }

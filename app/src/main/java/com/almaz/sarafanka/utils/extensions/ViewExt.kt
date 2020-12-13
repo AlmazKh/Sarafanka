@@ -3,6 +3,7 @@ package com.almaz.sarafanka.utils.extensions
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
+import com.almaz.sarafanka.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -49,6 +50,7 @@ fun ImageView.loadCircleImage(reference: StorageReference) =
         .load(reference)
         .centerCrop()
         .circleCrop()
+        .error(R.drawable.ic_default_avatar)
         .into(this)
 
 fun ImageView.loadImageWithCustomCorners(@DrawableRes resId: Int, radius: Int) =

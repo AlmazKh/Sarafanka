@@ -22,7 +22,23 @@
         android:id="@+id/serviceFragment"
         android:name="com.almaz.sarafanka.presentation.service.ServiceFragment"
         android:label="@string/service_page_title"
-        tools:layout="@layout/fragment_service" />
+        tools:layout="@layout/fragment_service">
+
+        <action
+            android:id="@+id/action_serviceFragment_to_otherProfileFragment"
+            app:destination="@id/otherProfileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/otherProfileFragment"
+        android:name="com.almaz.sarafanka.presentation.profile.OtherUserProfileFragment"
+        android:label="@string/profile_page_title"
+        tools:layout="@layout/fragment_other_user_profile">
+
+        <action
+            android:id="@+id/action_otherProfileFragment_to_serviceDetailsFragment"
+            app:destination="@id/serviceDetailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/notificationFragment"
@@ -39,6 +55,13 @@
         <action
             android:id="@+id/action_profileFragment_to_serviceDetailsFragment"
             app:destination="@id/serviceDetailsFragment" />
+
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment"
+            app:destination="@+id/auth_nav_graph"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/auth_nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment

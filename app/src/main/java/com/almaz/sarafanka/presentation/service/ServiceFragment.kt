@@ -13,8 +13,8 @@ class ServiceFragment : BaseFragment<ServiceViewModel>(ServiceViewModel::class.j
 
     private val servicesAdapter = ServicesAdapter {
         rootActivity.navController.navigate(
-            R.id.action_profileFragment_to_serviceDetailsFragment,
-            bundleOf("service" to it)
+            R.id.action_serviceFragment_to_otherProfileFragment,
+            bundleOf("profile" to it.owner_id)
         )
     }
 

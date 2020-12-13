@@ -41,7 +41,7 @@ class ServicesAdapter(private val serviceLambda: (Service) -> Unit) :
             itemView.tv_service_category.text = service.category.name
             itemView.tv_service_subcategory.text = service.subcategory
             itemView.tv_service_description.text = service.description
-            if (service.reviews == null)
+            if (service.reviews.isNullOrEmpty())
                 itemView.tv_has_examples.toInvisible()
             else
                 itemView.tv_has_examples.toVisible()

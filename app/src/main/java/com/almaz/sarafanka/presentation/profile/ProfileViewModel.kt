@@ -11,16 +11,19 @@ class ProfileViewModel(private val profileInteractor: ProfileInteractor) : BaseV
     val profileInfoLiveData = profileInteractor.profileInfoLiveData
     val profileServicesLiveData = profileInteractor.profileServicesLiveData
 
-    init {
-        getProfileInfo()
-        getProfileServices()
+    fun isCurrentUserProfile(userId: String): Boolean {
+        return profileInteractor.isCurrentUserProfile(userId)
     }
 
-    fun getProfileInfo() {
-        profileInteractor.getProfileInfo(this.errorState)
+    fun getProfileInfo(userId: String? = null) {
+        profileInteractor.getProfileInfo(this.errorState, userId)
     }
 
-    fun getProfileServices() {
-        profileInteractor.getProfileServices(this.errorState)
+    fun getProfileServices(userId: String? = null) {
+        profileInteractor.getProfileServices(this.errorState, userId)
+    }
+
+    fun logout() {
+        profileInteractor.logout()
     }
 }
