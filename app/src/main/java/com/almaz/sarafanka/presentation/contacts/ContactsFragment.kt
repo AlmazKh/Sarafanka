@@ -18,7 +18,7 @@ class ContactsFragment : BaseFragment<ContactsViewModel>(ContactsViewModel::clas
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun setupView() {
-        tvDefault.text = "Fetching contacts!!!"
+        tvDefault.text = "Fetching contacts..."
         val adapter = ContactsAdapter(rootActivity)
         rvContacts.adapter = adapter
         viewModel.contactsLiveData.observe(this, Observer {

@@ -29,7 +29,9 @@ class ContactsAdapter(context: Context) : RecyclerView.Adapter<ContactsAdapter.M
         with(holder.itemView) {
             tvContactName.text = contact.name
             llContactDetails.removeAllViews()
-            contact.numbers.forEach {
+            contact.numbers
+                    .map { it.replace("[\\s,-]".toRegex(),"") }.toHashSet()
+                    .forEach {
                 val detail = layoutInflater.inflate(R.layout.row_contact_data,llContactDetails,false)
                 detail.imgIcon.setImageResource(R.drawable.ic_add_btn)
                 detail.tvContactData.text = it
