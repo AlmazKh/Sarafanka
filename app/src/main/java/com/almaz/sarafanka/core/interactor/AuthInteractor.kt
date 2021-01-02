@@ -1,44 +1,23 @@
 package com.almaz.sarafanka.core.interactor
 
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.almaz.sarafanka.core.interfaces.UserRepository
+import com.almaz.sarafanka.data.AuthManager
 import com.almaz.sarafanka.presentation.base.InfoState
-import com.almaz.sarafanka.utils.states.AuthState
-import com.almaz.sarafanka.utils.states.codeSended
-import com.almaz.sarafanka.utils.states.loggedIn
-import com.almaz.sarafanka.utils.states.registered
+import com.almaz.sarafanka.utils.states.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AuthInteractor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val authManager: AuthManager
 ) : BaseInteractor() {
 
     private var storedPhoneNumber: String? = null
 
-    val isLoggedInLiveData = MutableLiveData<Boolean>()
-    val authState = MutableLiveData<AuthState>()
-
-    fun isLoggedIn() {
-        launch {
-            runCatching {
-//                viewState.loading()
-                withContext(Dispatchers.IO) {
-                    userRepository.checkAuthUser()
-                }
-            }.onSuccess {
-//                viewState.ready()
-                isLoggedInLiveData.postValue(it)
-            }.onFailure {
-//                viewState.ready()
-//                errorState.postValue(InfoPanelManager.getErrorInfo(it,action))
-                Log.d("onFailure: ", it.message.toString())
-            }
-        }
-    }
+    val authState = MutableLiveData(AuthState.PHONE)
 
     fun getVerificationCode(infoState: InfoState, phone: String) {
         launch {
@@ -51,7 +30,7 @@ class AuthInteractor(
                 storedPhoneNumber = phone
                 infoState.successState.postValue("Мы отправили вам код верификации")
             }.onFailure {
-                infoState.errorState.postValue("Code doesn`t send. Smth went wrong")
+                infoState.errorState.postValue("Код не отправлен. Что-то пошло не так")
             }
         }
     }
@@ -64,16 +43,16 @@ class AuthInteractor(
                 }
             }.onSuccess {
                 if (userRepository.searchUserInDb(storedPhoneNumber)) {
-                    isLoggedInLiveData.postValue(true)
-                    authState.registered()
-                    infoState.successState.postValue("Success auth!")
+                    authState.loggedIn()
+                    authManager.login()
+                    infoState.successState.postValue("Авторизация прошла успешно")
                 } else {
                     userRepository.addUserIntoDb(phone = it?.user?.phoneNumber)
-                    authState.loggedIn()
-                    infoState.successState.postValue("Success creating account! continue for finishing registration")
+                    authState.name()
+                    infoState.successState.postValue("Аккаунт создан! Для завершения регистрации осталось пару шагов")
                 }
             }.onFailure {
-                infoState.errorState.postValue("Auth fail. Smth went wrong")
+                infoState.errorState.postValue("Ошибка при создании аккаунта. Попробуйте снова")
             }
         }
     }
@@ -89,7 +68,9 @@ class AuthInteractor(
                 userRepository.updateUserInfo(phone, name, photo)
             }
             if (response.error != null) {
-                infoState.errorState.postValue("Smth went wrong")
+                infoState.errorState.postValue("Что-то пошло не так")
+            } else {
+                authState.photo()
             }
         }
     }
@@ -101,10 +82,11 @@ class AuthInteractor(
                     userRepository.loadAvatarIntoStorage(bitmap)
                 }
             }.onSuccess {
-                infoState.successState.postValue("Success loading avatar")
-                authState.postValue(AuthState.REGISTERED)
+                authState.registered()
+                authManager.login()
+                infoState.successState.postValue("Регистрация прошла успешно")
             }.onFailure {
-                infoState.errorState.postValue("Fail loading avatar")
+                infoState.errorState.postValue("Ошибка. Попробуйте снова")
             }
         }
     }

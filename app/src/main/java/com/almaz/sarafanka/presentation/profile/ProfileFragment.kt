@@ -1,10 +1,12 @@
 package com.almaz.sarafanka.presentation.profile
 
+import android.content.Intent
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.almaz.sarafanka.R
 import com.almaz.sarafanka.core.model.Service
 import com.almaz.sarafanka.core.model.User
+import com.almaz.sarafanka.presentation.auth.AuthActivity
 import com.almaz.sarafanka.presentation.base.BaseFragment
 import com.almaz.sarafanka.presentation.service.ServicesAdapter
 import com.almaz.sarafanka.utils.extensions.loadCircleImage
@@ -31,7 +33,8 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(ProfileViewModel::class.j
         ib_logout.setOnClickListener {
             viewModel.logout()
             rootActivity.bottom_nav.toGone()
-            rootActivity.navController.navigate(R.id.action_profileFragment_to_loginFragment)
+            startActivity(Intent(rootActivity, AuthActivity::class.java))
+            rootActivity.finish()
         }
         btn_create_service.setOnClickListener {
             rootActivity.navController.navigate(R.id.action_profileFragment_to_createServiceFragment)

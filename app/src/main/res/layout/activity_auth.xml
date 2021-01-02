@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_auth"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        layout="@layout/error_layer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        layout="@layout/success_layer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/enter_phone_layer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            style="@style/AuthTextDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="140dp"
+            android:text="@string/phone_page_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_country_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorWhite"
+            android:text="@string/default_country_code"
+            android:textSize="@dimen/font_tiny_16"
+            app:layout_constraintBottom_toBottomOf="@id/et_phone_number"
+            app:layout_constraintEnd_toStartOf="@id/divider_code_and_phone"
+            app:layout_constraintStart_toStartOf="@id/divider_bottom_of_filed1"
+            app:layout_constraintTop_toTopOf="@id/et_phone_number" />
+
+        <View
+            android:id="@+id/divider_code_and_phone"
+            android:layout_width="1dp"
+            android:layout_height="22dp"
+            android:background="@color/colorHintText"
+            app:layout_constraintBottom_toBottomOf="@id/tv_country_code"
+            app:layout_constraintEnd_toStartOf="@id/et_phone_number"
+            app:layout_constraintStart_toEndOf="@id/tv_country_code"
+            app:layout_constraintTop_toTopOf="@id/tv_country_code" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_phone_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorWhite"
+            android:hint="@string/your_phone_number"
+            android:inputType="number"
+            android:letterSpacing="0.1"
+            android:maxLength="10"
+            app:layout_constraintBottom_toTopOf="@id/divider_bottom_of_filed1"
+            app:layout_constraintEnd_toEndOf="@id/divider_bottom_of_filed1"
+            app:layout_constraintStart_toEndOf="@id/divider_code_and_phone" />
+
+        <View
+            android:id="@+id/divider_bottom_of_filed1"
+            style="@style/AuthPageDivider"
+            app:layout_constraintBottom_toTopOf="@id/btn_next_to_verification"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_next_to_verification"
+            style="@style/AuthButton"
+            android:text="@string/next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/verification_code_layer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            style="@style/AuthTextDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="140dp"
+            android:text="@string/verification_page_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_verification_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_small_8"
+            android:backgroundTint="@color/colorWhite"
+            android:hint="@string/verification_code"
+            android:inputType="number"
+            android:maxLength="6"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@id/divider_bottom_of_filed2"
+            app:layout_constraintEnd_toEndOf="@id/divider_bottom_of_filed2"
+            app:layout_constraintStart_toStartOf="@id/divider_bottom_of_filed2" />
+
+        <View
+            android:id="@+id/divider_bottom_of_filed2"
+            style="@style/AuthPageDivider"
+            app:layout_constraintBottom_toTopOf="@id/btn_approve_verification"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_approve_verification"
+            style="@style/AuthButton"
+            android:text="@string/approve"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/name_layer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            style="@style/AuthTextDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="140dp"
+            android:text="@string/what_is_your_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_small_8"
+            android:backgroundTint="@color/colorWhite"
+            android:hint="@string/your_name"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toTopOf="@id/divider_bottom_of_filed3"
+            app:layout_constraintEnd_toEndOf="@id/divider_bottom_of_filed3"
+            app:layout_constraintStart_toStartOf="@id/divider_bottom_of_filed3" />
+
+        <View
+            android:id="@+id/divider_bottom_of_filed3"
+            style="@style/AuthPageDivider"
+            app:layout_constraintBottom_toTopOf="@id/btn_next_to_upload_photo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_next_to_upload_photo"
+            style="@style/AuthButton"
+            android:text="@string/next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/photo_layer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_upload_avatar"
+            style="@style/AuthTextDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="126dp"
+            android:text="@string/upload_photo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_upload_avatar"
+            android:layout_width="172dp"
+            android:layout_height="172dp"
+            android:src="@drawable/ic_avatar_place"
+            app:layout_constraintBottom_toTopOf="@id/btn_approve_auth"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_upload_avatar" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_approve_auth"
+            style="@style/AuthButton"
+            android:text="@string/skip"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

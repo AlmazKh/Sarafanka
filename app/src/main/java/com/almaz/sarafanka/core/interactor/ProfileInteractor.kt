@@ -7,6 +7,7 @@ import com.almaz.sarafanka.core.interfaces.UserRepository
 import com.almaz.sarafanka.core.model.Service
 import com.almaz.sarafanka.core.model.ServiceCategory
 import com.almaz.sarafanka.core.model.User
+import com.almaz.sarafanka.data.AuthManager
 import com.almaz.sarafanka.presentation.base.InfoState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,7 +15,8 @@ import kotlinx.coroutines.withContext
 
 class ProfileInteractor(
     private val userRepository: UserRepository,
-    private val serviceRepository: ServiceRepository
+    private val serviceRepository: ServiceRepository,
+    private val authManager: AuthManager
 ) : BaseInteractor() {
 
     val profileInfoLiveData = MutableLiveData<User>()
@@ -75,6 +77,7 @@ class ProfileInteractor(
         launch {
             withContext(Dispatchers.IO) {
                 userRepository.logout()
+                authManager.logout()
             }
         }
     }

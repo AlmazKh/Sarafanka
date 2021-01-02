@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.almaz.sarafanka.SarafankaApp
 import com.almaz.sarafanka.presentation.main.MainActivity
-import com.almaz.sarafanka.utils.states.LoadingState
 import com.almaz.sarafanka.utils.extensions.observe
+import com.almaz.sarafanka.utils.states.LoadingState
 import com.google.android.material.snackbar.Snackbar
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -34,7 +34,6 @@ abstract class BaseFragment<T : BaseViewModel>(private val classT: Class<T>) : F
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setViewModel()
-        subscribe(viewModel)
     }
 
     override fun onCreateView(
@@ -47,6 +46,7 @@ abstract class BaseFragment<T : BaseViewModel>(private val classT: Class<T>) : F
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
+        subscribe(viewModel)
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {

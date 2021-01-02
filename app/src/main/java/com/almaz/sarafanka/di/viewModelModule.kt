@@ -23,7 +23,7 @@ fun viewModelModule() = Kodein.Module(name = "viewModelModule") {
         )
     }
     bindViewModel<MainViewModel>() with provider {
-        MainViewModel(instance())
+        MainViewModel()
     }
     bindViewModel<AuthViewModel>() with provider {
         AuthViewModel(instance())

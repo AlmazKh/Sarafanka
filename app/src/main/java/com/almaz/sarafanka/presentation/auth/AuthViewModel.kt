@@ -27,9 +27,4 @@ class AuthViewModel(
     fun loadAvatarIntoStorage(bitmap: Bitmap) {
         authInteractor.loadAvatarIntoStorage(this, bitmap)
     }
-
-    fun setIsLoggedInLiveDataTrue() {
-        authInteractor.isLoggedInLiveData.postValue(true)
-        successState.postValue("Success auth")
-    }
 }
