@@ -5,20 +5,20 @@
         android:icon="@drawable/ic_contacts"
         android:title="@string/contacts_page_title" />
 
-    <item
+    <!--<item
         android:id="@+id/eventFragment"
         android:icon="@drawable/ic_event"
-        android:title="@string/event_page_title" />
+        android:title="@string/event_page_title" />-->
 
     <item
         android:id="@+id/serviceFragment"
         android:icon="@drawable/ic_service"
         android:title="@string/service_page_title" />
 
-    <item
+    <!--<item
         android:id="@+id/notificationFragment"
         android:icon="@drawable/ic_notification"
-        android:title="@string/notification_page_title" />
+        android:title="@string/notification_page_title" />-->
 
     <item
         android:id="@+id/profileFragment"

@@ -11,11 +11,12 @@
         android:label="@string/contacts_page_title"
         tools:layout="@layout/fragment_contacts" />
 
+    <!-- TODO
     <fragment
         android:id="@+id/eventFragment"
         android:name="com.almaz.sarafanka.presentation.event.EventFragment"
         android:label="@string/event_page_title"
-        tools:layout="@layout/fragment_event" />
+        tools:layout="@layout/fragment_event" />-->
 
     <fragment
         android:id="@+id/serviceFragment"
@@ -39,11 +40,12 @@
             app:destination="@id/serviceDetailsFragment" />
     </fragment>
 
+    <!-- TODO
     <fragment
         android:id="@+id/notificationFragment"
         android:name="com.almaz.sarafanka.presentation.notification.NotificationFragment"
         android:label="@string/notification_page_title"
-        tools:layout="@layout/fragment_notification" />
+        tools:layout="@layout/fragment_notification" />-->
 
     <fragment
         android:id="@+id/profileFragment"
