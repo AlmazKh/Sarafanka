@@ -176,18 +176,7 @@ class ServiceCategoriesHolder {
 
     fun getCategories(): List<ServiceCategory> = categories
 
-    fun getCategoryById(id: Int): ServiceCategory? {
-        getCategories().forEach { category ->
-            if (category.id == id) {
-                return category
-            }
-        }
-        return null
-    }
+    fun getCategoryById(id: Int) = getCategories().find { category -> category.id == id}
 
-    fun getCategoryIdByName(name: String): Int {
-        return categories.binarySearch {
-            String.CASE_INSENSITIVE_ORDER.compare(it.name, name)
-        }
-    }
+    fun getCategoryIdByName(name: String): Int = categories.find {category -> category.name == name }?.id ?: 1
 }
