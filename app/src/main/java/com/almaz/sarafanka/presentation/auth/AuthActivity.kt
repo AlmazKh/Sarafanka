@@ -7,6 +7,7 @@ import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -29,6 +30,8 @@ class AuthActivity : BaseActivity<AuthViewModel>(AuthViewModel::class.java) {
     private var imageUri: Uri? = null
 
     override fun setupView() {
+        window.statusBarColor = ContextCompat.getColor(this, R.color.colorWhite)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         btn_next_to_verification.setOnClickListener {
             checkPhoneNumber("${tv_country_code.text}${et_phone_number.text}")
         }
