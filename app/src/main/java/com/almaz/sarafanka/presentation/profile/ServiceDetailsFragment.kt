@@ -6,7 +6,9 @@ import com.almaz.sarafanka.R
 import com.almaz.sarafanka.core.model.Service
 import com.almaz.sarafanka.presentation.base.BaseFragment
 import com.almaz.sarafanka.utils.extensions.toGone
+import com.almaz.sarafanka.utils.extensions.toInvisible
 import com.almaz.sarafanka.utils.extensions.toVisible
+import com.almaz.sarafanka.utils.extensions.toVisibleAnimated
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_service_details.*
 
@@ -38,11 +40,6 @@ class ServiceDetailsFragment : BaseFragment<ProfileViewModel>(ProfileViewModel::
         rootActivity.bottom_nav.toGone()
     }
 
-    override fun onStop() {
-        super.onStop()
-        rootActivity.bottom_nav.toVisible()
-    }
-
     private fun setUpServiceData(isCurrentUserService: Boolean, service: Service) {
         if (isCurrentUserService) {
             btn_request_recommendation.text = resources.getText(R.string.request_recommendation)
@@ -50,7 +47,12 @@ class ServiceDetailsFragment : BaseFragment<ProfileViewModel>(ProfileViewModel::
             btn_request_recommendation.text = resources.getText(R.string.give_feedback)
 
         }
-        service.photo?.let { imageListAdapter.submitList(it) }
+        if(service.photo.isNullOrEmpty()) {
+            card_no_service_photo.toVisible()
+        } else {
+            card_no_service_photo.toInvisible()
+            imageListAdapter.submitList(service.photo)
+        }
         if (service.reviews.isNullOrEmpty()) {
             tv_reviews_title.toGone()
             showSnackbar("У данной услуги пока нет примеров")
@@ -60,6 +62,5 @@ class ServiceDetailsFragment : BaseFragment<ProfileViewModel>(ProfileViewModel::
         }
         tv_service_details_title.text = service.category.name
         tv_service_description.text = service.description
-
     }
 }

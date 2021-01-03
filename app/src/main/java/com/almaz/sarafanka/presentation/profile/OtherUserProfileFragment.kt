@@ -11,6 +11,9 @@ import com.almaz.sarafanka.presentation.base.BaseFragment
 import com.almaz.sarafanka.presentation.service.ServicesAdapter
 import com.almaz.sarafanka.utils.extensions.loadCircleImage
 import com.almaz.sarafanka.utils.extensions.observe
+import com.almaz.sarafanka.utils.extensions.toGone
+import com.almaz.sarafanka.utils.extensions.toVisible
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_other_user_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.iv_user_avatar
 import kotlinx.android.synthetic.main.fragment_profile.rv_profile_services
@@ -41,6 +44,11 @@ class OtherUserProfileFragment : BaseFragment<ProfileViewModel>(ProfileViewModel
         super.subscribe(viewModel)
         observe(viewModel.profileInfoLiveData, ::bindProfileInfo)
         observe(viewModel.profileServicesLiveData, ::bindProfileServices)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        rootActivity.bottom_nav.toGone()
     }
 
     private fun bindProfileInfo(user: User) {
