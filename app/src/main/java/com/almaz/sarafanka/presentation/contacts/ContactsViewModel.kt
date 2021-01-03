@@ -7,17 +7,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.almaz.sarafanka.core.interfaces.UserRepository
 import com.almaz.sarafanka.core.model.Contact
 import com.almaz.sarafanka.presentation.base.BaseViewModel
 import com.almaz.sarafanka.utils.states.LoadingState
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class ContactsViewModel() : BaseViewModel() {
+class ContactsViewModel(
+    val userRepository: UserRepository
+) : BaseViewModel() {
     override val loadingState = MutableLiveData<LoadingState>()
 
-    private val _contactsLiveData = MutableLiveData<ArrayList<Contact>>()
-    val contactsLiveData: LiveData<ArrayList<Contact>> = _contactsLiveData
+    private val _contactsLiveData = MutableLiveData<List<Contact>>()
+    val contactsLiveData: LiveData<List<Contact>> = _contactsLiveData
 
     fun fetchContacts(application: Application) {
         viewModelScope.launch {
@@ -31,14 +34,30 @@ class ContactsViewModel() : BaseViewModel() {
 
             contacts.forEach {
                 contactNumbers[it.id]?.let { numbers ->
-                    it.numbers = numbers
+                    it.numbers = numbers.map{ it.replace("[\\s,\\-,\\*,\\#]".toRegex(),"") }.filter { it.length > 4 }.toHashSet()
                 }
                 contactEmails[it.id]?.let { emails ->
                     it.emails = emails
                 }
+                if (it.numbers.isNotEmpty())
+                 async {
+                    for (x in it.numbers){
+                        it.user = getUserInDb(x)
+                        if (it.user != null)
+                            break
+                    }
+                    if (it.user != null)
+                        updateContact(it)
+                }
             }
-            _contactsLiveData.postValue(contacts)
+            _contactsLiveData.postValue(contacts.filter { it.numbers.isNotEmpty() })
         }
+    }
+
+    @Synchronized
+    private fun updateContact(it: Contact){
+        _contactsLiveData.postValue( _contactsLiveData.value?.toHashSet()?.apply{ add(it) }?.toList()
+            ?.sortedBy { (it.user == null).toString() + it.name })
     }
 
     private suspend fun getPhoneContacts(application: Application): ArrayList<Contact> {
@@ -117,5 +136,7 @@ class ContactsViewModel() : BaseViewModel() {
         }
         return contactsEmailMap
     }
+
+    private suspend fun getUserInDb(phone: String) = userRepository.getUserInDb(phone)
 
 }

@@ -9,7 +9,11 @@
         android:id="@+id/contactsFragment"
         android:name="com.almaz.sarafanka.presentation.contacts.ContactsFragment"
         android:label="@string/contacts_page_title"
-        tools:layout="@layout/fragment_contacts" />
+        tools:layout="@layout/fragment_contacts" >
+        <action
+            android:id="@+id/action_contactsFragment_to_otherProfileFragment"
+            app:destination="@id/otherProfileFragment" />
+    </fragment>
 
     <!-- TODO
     <fragment

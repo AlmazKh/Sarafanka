@@ -124,6 +124,15 @@ class UserRepositoryImpl(
         }
     }
 
+    override suspend fun getUserInDb(phone: String?): User? {
+        return try {
+            val snapshot = db.collection(USERS).whereEqualTo(USER_PHONE, phone).get().await()
+            mapDocumentToUser(snapshot.first())
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     override suspend fun addUserIntoDb(phone: String?, name: String?, photo: String?): Boolean {
         return try {
             val userMap = HashMap<String, Any?>()

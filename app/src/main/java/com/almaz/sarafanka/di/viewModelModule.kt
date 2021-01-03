@@ -32,7 +32,7 @@ fun viewModelModule() = Kodein.Module(name = "viewModelModule") {
         ProfileViewModel(instance())
     }
     bindViewModel<ContactsViewModel>() with provider {
-        ContactsViewModel()
+        ContactsViewModel(instance())
     }
     bindViewModel<ServiceViewModel>() with provider {
         ServiceViewModel(instance())
