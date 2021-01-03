@@ -16,6 +16,6 @@ fun interactorModule() = Kodein.Module("interactorModule") {
         ProfileInteractor(instance(), instance(), instance())
     }
     bind<ServiceInteractor>() with singleton {
-        ServiceInteractor(instance())
+        ServiceInteractor(instance(), instance())
     }
 }

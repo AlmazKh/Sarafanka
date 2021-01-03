@@ -2,6 +2,7 @@ package com.almaz.sarafanka.core.interactor
 
 import androidx.lifecycle.MutableLiveData
 import com.almaz.sarafanka.core.interfaces.ServiceRepository
+import com.almaz.sarafanka.core.interfaces.UserRepository
 import com.almaz.sarafanka.core.model.Service
 import com.almaz.sarafanka.utils.states.loading
 import com.almaz.sarafanka.utils.states.ready
@@ -10,7 +11,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ServiceInteractor(
-    private val serviceRepository: ServiceRepository
+    private val serviceRepository: ServiceRepository,
+    private val userRepository: UserRepository
 ) : BaseInteractor() {
 
     val servicesLiveData = MutableLiveData<List<Service>>()
@@ -24,7 +26,9 @@ class ServiceInteractor(
                 }
             }.onSuccess {
                 loadingState.ready()
-                servicesLiveData.postValue(it)
+                servicesLiveData.postValue(
+                    it.filter { service -> service.owner_id != userRepository.getCurrentUserId() }
+                )
             }.onFailure {
                 loadingState.ready()
                 errorState.postValue(it.message)
