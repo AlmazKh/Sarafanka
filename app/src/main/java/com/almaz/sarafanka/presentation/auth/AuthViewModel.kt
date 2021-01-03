@@ -9,7 +9,7 @@ import com.almaz.sarafanka.utils.states.LoadingState
 class AuthViewModel(
     private val authInteractor: AuthInteractor
 ) : BaseViewModel() {
-    override val loadingState = MutableLiveData(LoadingState.READY)
+    override val loadingState = authInteractor.loadingState
     val authState = authInteractor.authState
 
     fun getVerificationCode(phone: String) {
@@ -26,10 +26,5 @@ class AuthViewModel(
 
     fun loadAvatarIntoStorage(bitmap: Bitmap) {
         authInteractor.loadAvatarIntoStorage(this, bitmap)
-    }
-
-    fun setIsLoggedInLiveDataTrue() {
-        authInteractor.isLoggedInLiveData.postValue(true)
-        successState.postValue("Success auth")
     }
 }

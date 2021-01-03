@@ -7,6 +7,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
+
     <style name="PageTitle">
         <item name="android:textColor">@color/colorTitle</item>
         <item name="android:textSize">@dimen/font_large_28</item>

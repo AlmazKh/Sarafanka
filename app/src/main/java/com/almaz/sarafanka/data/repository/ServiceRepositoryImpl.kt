@@ -4,9 +4,12 @@ import com.almaz.sarafanka.core.interfaces.ServiceRepository
 import com.almaz.sarafanka.core.interfaces.UserRepository
 import com.almaz.sarafanka.core.model.Review
 import com.almaz.sarafanka.core.model.Service
+import com.almaz.sarafanka.core.model.ServiceCategory
 import com.almaz.sarafanka.core.model.User
 import com.almaz.sarafanka.data.ServiceCategoriesHolder
+import com.almaz.sarafanka.utils.Response
 import com.almaz.sarafanka.utils.extensions.getDownloadablePhotoUrl
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.storage.FirebaseStorage
@@ -35,7 +38,8 @@ class ServiceRepositoryImpl(
     private val db: FirebaseFirestore,
     private val storage: FirebaseStorage,
     private val serviceCategoriesHolder: ServiceCategoriesHolder,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val firebaseAuth: FirebaseAuth
 ) : ServiceRepository {
     override suspend fun getServicesByUserId(id: String): List<Service> {
         return try {
@@ -66,6 +70,30 @@ class ServiceRepositoryImpl(
         }
     }
 
+    override suspend fun getServiceCategories(): List<ServiceCategory> {
+        return serviceCategoriesHolder.getCategories()
+    }
+
+    override suspend fun publishService(
+        category: String,
+        profession: String,
+        description: String?
+    ): Response<Boolean> {
+        return try {
+            val serviceMap = HashMap<String, Any?>()
+            serviceMap[SERVICE_CATEGORY_ID] = serviceCategoriesHolder.getCategoryIdByName(category)
+            serviceMap[SERVICE_SUBCATEGORY] = profession
+            serviceMap[SERVICE_DESCRIPTION] = description
+            serviceMap[SERVICE_OWNER_ID] = firebaseAuth.currentUser?.uid
+            db.collection(SERVICES)
+                .add(serviceMap)
+                .await()
+            Response.success(true)
+        } catch (e: Exception) {
+            Response.error(e)
+        }
+    }
+
     private suspend fun mapDocumentToService(documentSnapshot: QueryDocumentSnapshot): Service =
         Service(
             id = documentSnapshot.get(SERVICE_ID).toString(),
@@ -75,7 +103,7 @@ class ServiceRepositoryImpl(
                 ).toString().toInt()
             )!!,
             subcategory = documentSnapshot.get(SERVICE_SUBCATEGORY).toString(),
-            photo = (documentSnapshot.get(SERVICE_PHOTO) as List<*>).map {
+            photo = (documentSnapshot.get(SERVICE_PHOTO) as List<*>?)?.map {
                 storage.getDownloadablePhotoUrl(
                     it.toString()
                 )
@@ -102,7 +130,7 @@ class ServiceRepositoryImpl(
             description = documentSnapshot.get(REVIEW_DESCRIPTION).toString(),
             isRecommended = documentSnapshot.get(REVIEW_IS_RECOMMENDED).toString().toBoolean(),
             inContacts = true, // TODO
-            photo = (documentSnapshot.get(REVIEW_PHOTO) as List<*>).map {
+            photo = (documentSnapshot.get(REVIEW_PHOTO) as List<*>?)?.map {
                 storage.getDownloadablePhotoUrl(
                     it.toString()
                 )

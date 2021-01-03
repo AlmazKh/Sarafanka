@@ -16,7 +16,6 @@ class ContactsFragment : BaseFragment<ContactsViewModel>(ContactsViewModel::clas
     override val layoutId = R.layout.fragment_contacts
     private val CONTACTS_READ_REQ_CODE = 100
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun setupView() {
         tvDefault.text = "Fetching contacts..."
         val adapter = ContactsAdapter(rootActivity)

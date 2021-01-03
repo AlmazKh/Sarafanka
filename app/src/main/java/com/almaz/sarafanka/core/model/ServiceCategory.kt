@@ -1,6 +1,7 @@
 package com.almaz.sarafanka.core.model
 
-class ServiceCategory(
+data class ServiceCategory(
     val id: Int,
-    val name: String
+    val name: String,
+    val professions: List<String>
 )

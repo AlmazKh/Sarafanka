@@ -11,6 +11,8 @@ abstract class BaseViewModel : ViewModel(), InfoState {
 
     override val errorState = InfoPanelManager.errorMainState
     override val successState = InfoPanelManager.successMainState
+
+    open fun refresh() {}
 }
 
 interface InfoState {

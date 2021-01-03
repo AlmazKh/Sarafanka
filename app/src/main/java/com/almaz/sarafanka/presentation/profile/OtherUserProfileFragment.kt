@@ -20,7 +20,7 @@ class OtherUserProfileFragment : BaseFragment<ProfileViewModel>(ProfileViewModel
     private val servicesAdapter = ServicesAdapter {
         rootActivity.navController.navigate(
             R.id.action_otherProfileFragment_to_serviceDetailsFragment,
-            bundleOf("service" to it)
+            bundleOf("other_service" to it)
         )
     }
     override val layoutId: Int = R.layout.fragment_other_user_profile

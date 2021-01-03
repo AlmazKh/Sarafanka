@@ -10,12 +10,12 @@ import org.kodein.di.generic.singleton
 
 fun interactorModule() = Kodein.Module("interactorModule") {
     bind<AuthInteractor>() with singleton {
-        AuthInteractor(instance())
+        AuthInteractor(instance(), instance())
     }
     bind<ProfileInteractor>() with singleton {
-        ProfileInteractor(instance(), instance())
+        ProfileInteractor(instance(), instance(), instance())
     }
     bind<ServiceInteractor>() with singleton {
-        ServiceInteractor(instance())
+        ServiceInteractor(instance(), instance())
     }
 }

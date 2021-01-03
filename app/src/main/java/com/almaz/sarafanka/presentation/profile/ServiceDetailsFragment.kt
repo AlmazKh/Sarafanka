@@ -29,7 +29,8 @@ class ServiceDetailsFragment : BaseFragment<ProfileViewModel>(ProfileViewModel::
             layoutManager = LinearLayoutManager(context)
             adapter = serviceReviewsAdapter
         }
-        arguments?.getParcelable<Service>("service")?.let { setUpServiceData(it) }
+        arguments?.getParcelable<Service>("my_service")?.let { setUpServiceData(true, it) }
+        arguments?.getParcelable<Service>("other_service")?.let { setUpServiceData(false, it) }
     }
 
     override fun onStart() {
@@ -42,7 +43,13 @@ class ServiceDetailsFragment : BaseFragment<ProfileViewModel>(ProfileViewModel::
         rootActivity.bottom_nav.toVisible()
     }
 
-    private fun setUpServiceData(service: Service) {
+    private fun setUpServiceData(isCurrentUserService: Boolean, service: Service) {
+        if (isCurrentUserService) {
+            btn_request_recommendation.text = resources.getText(R.string.request_recommendation)
+        } else {
+            btn_request_recommendation.text = resources.getText(R.string.give_feedback)
+
+        }
         service.photo?.let { imageListAdapter.submitList(it) }
         if (service.reviews.isNullOrEmpty()) {
             tv_reviews_title.toGone()
@@ -53,5 +60,6 @@ class ServiceDetailsFragment : BaseFragment<ProfileViewModel>(ProfileViewModel::
         }
         tv_service_details_title.text = service.category.name
         tv_service_description.text = service.description
+
     }
 }

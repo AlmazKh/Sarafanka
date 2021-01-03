@@ -31,12 +31,18 @@
     <string name="my_services">Мои услуги</string>
     <string name="examples">Примеры</string>
     <string name="request_recommendation">Запросить рекомендацию</string>
+    <string name="give_feedback">Оставить отзыв</string>
     <string name="share">Поделиться</string>
     <string name="works_examples">Примеры работ</string>
     <string name="in_contacts">Знакомый</string>
     <string name="recommended">Рекомендует</string>
+    <!--    Profile page -->
+    <string name="add_service_page_title">Публикация услуги</string>
+    <string name="service_sphere">Сфера услуги</string>
+    <string name="profession">Профессия</string>
+    <string name="description">Описание</string>
+    <string name="publish">Опубликовать</string>
+    <string name="gallery">Галерея</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search">Поиск</string>
 </resources>
