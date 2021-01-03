@@ -31,9 +31,11 @@ class OtherUserProfileFragment : BaseFragment<ProfileViewModel>(ProfileViewModel
     override fun setupView() {
         rv_profile_services.layoutManager = LinearLayoutManager(context)
         rv_profile_services.adapter = servicesAdapter
-        arguments?.get("profile").toString().run {
-            viewModel.getProfileInfo(this)
-            viewModel.getProfileServices(this)
+        arguments?.get("profile")?.run {
+            loadProfile(this.toString())
+        }
+        rootActivity.intent.data.run {
+            this?.lastPathSegment?.let { loadProfile(it) }
         }
         btn_back.setOnClickListener {
             rootActivity.navController.navigateUp()
@@ -50,6 +52,11 @@ class OtherUserProfileFragment : BaseFragment<ProfileViewModel>(ProfileViewModel
     override fun onStart() {
         super.onStart()
         rootActivity.bottom_nav.toGone()
+    }
+
+    private fun loadProfile(userId: String) {
+        viewModel.getProfileInfo(userId)
+        viewModel.getProfileServices(userId)
     }
 
     private fun bindProfileInfo(user: User) {
