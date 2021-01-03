@@ -1,5 +1,6 @@
 package com.almaz.sarafanka.core.interactor
 
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.almaz.sarafanka.core.interfaces.ServiceRepository
@@ -97,10 +98,10 @@ class ProfileInteractor(
         }
     }
 
-    fun publishService(infoState: InfoState, category: String, profession: String, description: String?) {
+    fun publishService(infoState: InfoState, category: String, profession: String, description: String?, images: List<Bitmap>?) {
         launch {
             val response = withContext(Dispatchers.IO) {
-                serviceRepository.publishService(category, profession, description)
+                serviceRepository.publishService(category, profession, description, images)
             }
             if (response.error != null) {
                 infoState.errorState.postValue("Не удалось опубликовать услугу. Попробуйте снова")

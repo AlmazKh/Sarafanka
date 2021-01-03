@@ -1,5 +1,8 @@
 package com.almaz.sarafanka.data.repository
 
+import android.graphics.Bitmap
+import android.net.Uri
+import android.provider.MediaStore
 import com.almaz.sarafanka.core.interfaces.ServiceRepository
 import com.almaz.sarafanka.core.interfaces.UserRepository
 import com.almaz.sarafanka.core.model.Review
@@ -14,6 +17,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
+import java.io.ByteArrayOutputStream
+import java.util.*
+import kotlin.collections.HashMap
 
 // Service collection
 private const val SERVICES = "services"
@@ -77,7 +83,8 @@ class ServiceRepositoryImpl(
     override suspend fun publishService(
         category: String,
         profession: String,
-        description: String?
+        description: String?,
+        images: List<Bitmap>?
     ): Response<Boolean> {
         return try {
             val serviceMap = HashMap<String, Any?>()
@@ -85,6 +92,7 @@ class ServiceRepositoryImpl(
             serviceMap[SERVICE_SUBCATEGORY] = profession
             serviceMap[SERVICE_DESCRIPTION] = description
             serviceMap[SERVICE_OWNER_ID] = firebaseAuth.currentUser?.uid
+            serviceMap[SERVICE_PHOTO] = images?.let { loadPhotoIntoStorage(it) }
             db.collection(SERVICES)
                 .add(serviceMap)
                 .await()
@@ -92,6 +100,21 @@ class ServiceRepositoryImpl(
         } catch (e: Exception) {
             Response.error(e)
         }
+    }
+
+    private fun loadPhotoIntoStorage(images: List<Bitmap>): List<String> {
+        val refList = mutableListOf<String>()
+        images.forEach { bitmap ->
+            val reference = "profile/${UUID.randomUUID()}"
+            val baos = ByteArrayOutputStream()
+            if (bitmap.byteCount > 15000000)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos)
+            else
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, baos)
+            storage.reference.child(reference).putBytes(baos.toByteArray())
+            refList.add(reference)
+        }
+        return refList
     }
 
     private suspend fun mapDocumentToService(documentSnapshot: QueryDocumentSnapshot): Service =
