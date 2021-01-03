@@ -7,6 +7,7 @@ import com.almaz.sarafanka.R
 import com.almaz.sarafanka.core.model.Service
 import com.almaz.sarafanka.presentation.base.BaseFragment
 import com.almaz.sarafanka.utils.extensions.observe
+import com.faltenreich.skeletonlayout.applySkeleton
 import kotlinx.android.synthetic.main.fragment_service.*
 
 class ServiceFragment : BaseFragment<ServiceViewModel>(ServiceViewModel::class.java) {
@@ -26,6 +27,7 @@ class ServiceFragment : BaseFragment<ServiceViewModel>(ServiceViewModel::class.j
         et_search_services.addTextChangedListener {
             servicesAdapter.filter.filter(it)
         }
+        skeletons.add(rv_services.applySkeleton(R.layout.item_profile_services, 6))
     }
 
     override fun subscribe(viewModel: ServiceViewModel) {

@@ -7,19 +7,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.almaz.sarafanka.SarafankaApp
 import com.almaz.sarafanka.presentation.main.MainActivity
 import com.almaz.sarafanka.utils.extensions.observe
+import com.almaz.sarafanka.utils.extensions.toGoneAnimated
+import com.almaz.sarafanka.utils.extensions.toVisibleAnimated
 import com.almaz.sarafanka.utils.states.LoadingState
+import com.faltenreich.skeletonlayout.Skeleton
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_auth.*
+import kotlinx.android.synthetic.main.fragment_service.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.generic.instance
 
 abstract class BaseFragment<T : BaseViewModel>(private val classT: Class<T>) : Fragment(),
-    KodeinAware {
+    KodeinAware, SwipeRefreshLayout.OnRefreshListener {
     protected lateinit var rootActivity: MainActivity
     protected abstract val layoutId: Int
+    val skeletons = arrayListOf<Skeleton>()
 
     val viewModelFactory: ViewModelProvider.Factory by instance()
     lateinit var viewModel: T
@@ -47,6 +54,7 @@ abstract class BaseFragment<T : BaseViewModel>(private val classT: Class<T>) : F
         super.onViewCreated(view, savedInstanceState)
         setupView()
         subscribe(viewModel)
+        swipe_refresh?.setOnRefreshListener(this)
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -67,8 +75,19 @@ abstract class BaseFragment<T : BaseViewModel>(private val classT: Class<T>) : F
     private fun bindLoadingState(loadingState: LoadingState) {
         when (loadingState) {
             LoadingState.LOADING -> {
+                skeletons.forEach {
+                    it.showSkeleton()
+                }
+            }
+            LoadingState.LOADING_FULLSCREEN -> {
+                loading_fullscreen_view?.toVisibleAnimated()
             }
             LoadingState.READY -> {
+                swipe_refresh?.isRefreshing = false
+                skeletons.forEach {
+                    it.showOriginal()
+                }
+                loading_fullscreen_view?.toGoneAnimated()
             }
         }
     }
@@ -81,5 +100,10 @@ abstract class BaseFragment<T : BaseViewModel>(private val classT: Class<T>) : F
                 Snackbar.LENGTH_SHORT
             ).show()
         }
+    }
+
+    override fun onRefresh() {
+        swipe_refresh?.isRefreshing = true
+        viewModel.refresh()
     }
 }
