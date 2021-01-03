@@ -8,7 +8,6 @@ import com.almaz.sarafanka.presentation.base.BaseFragment
 import com.almaz.sarafanka.utils.extensions.toGone
 import com.almaz.sarafanka.utils.extensions.toInvisible
 import com.almaz.sarafanka.utils.extensions.toVisible
-import com.almaz.sarafanka.utils.extensions.toVisibleAnimated
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_service_details.*
 

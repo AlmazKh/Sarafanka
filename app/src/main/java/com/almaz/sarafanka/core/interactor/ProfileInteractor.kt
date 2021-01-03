@@ -9,6 +9,8 @@ import com.almaz.sarafanka.core.model.ServiceCategory
 import com.almaz.sarafanka.core.model.User
 import com.almaz.sarafanka.data.AuthManager
 import com.almaz.sarafanka.presentation.base.InfoState
+import com.almaz.sarafanka.utils.states.loading
+import com.almaz.sarafanka.utils.states.ready
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -48,6 +50,7 @@ class ProfileInteractor(
     fun getProfileServices(errorState: MutableLiveData<String>, userId: String? = null) {
         launch {
             runCatching {
+                loadingState.loading()
                 withContext(Dispatchers.IO) {
                     if (userId != null) {
                         serviceRepository.getServicesByUserId(userId)
@@ -58,8 +61,10 @@ class ProfileInteractor(
                     }
                 }
             }.onSuccess {
+                loadingState.ready()
                 profileServicesLiveData.postValue(it)
             }.onFailure {
+                loadingState.ready()
                 errorState.postValue(it.message)
             }
         }

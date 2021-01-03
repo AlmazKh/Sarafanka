@@ -13,6 +13,7 @@ import com.almaz.sarafanka.utils.extensions.loadCircleImage
 import com.almaz.sarafanka.utils.extensions.observe
 import com.almaz.sarafanka.utils.extensions.toGone
 import com.almaz.sarafanka.utils.extensions.toVisible
+import com.faltenreich.skeletonlayout.applySkeleton
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 
@@ -39,6 +40,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(ProfileViewModel::class.j
         btn_create_service.setOnClickListener {
             rootActivity.navController.navigate(R.id.action_profileFragment_to_createServiceFragment)
         }
+        skeletons.add(rv_profile_services.applySkeleton(R.layout.item_profile_services, 6))
     }
 
     override fun subscribe(viewModel: ProfileViewModel) {

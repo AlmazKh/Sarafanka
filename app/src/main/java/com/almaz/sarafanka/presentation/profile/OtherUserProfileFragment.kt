@@ -12,7 +12,7 @@ import com.almaz.sarafanka.presentation.service.ServicesAdapter
 import com.almaz.sarafanka.utils.extensions.loadCircleImage
 import com.almaz.sarafanka.utils.extensions.observe
 import com.almaz.sarafanka.utils.extensions.toGone
-import com.almaz.sarafanka.utils.extensions.toVisible
+import com.faltenreich.skeletonlayout.applySkeleton
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_other_user_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.iv_user_avatar
@@ -38,6 +38,7 @@ class OtherUserProfileFragment : BaseFragment<ProfileViewModel>(ProfileViewModel
         btn_back.setOnClickListener {
             rootActivity.navController.navigateUp()
         }
+        skeletons.add(rv_profile_services.applySkeleton(R.layout.item_profile_services, 6))
     }
 
     override fun subscribe(viewModel: ProfileViewModel) {
