@@ -6,10 +6,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.almaz.sarafanka.SarafankaApp
+import com.almaz.sarafanka.utils.extensions.*
 import com.almaz.sarafanka.utils.states.LoadingState
-import com.almaz.sarafanka.utils.extensions.observe
-import com.almaz.sarafanka.utils.extensions.toGone
-import com.almaz.sarafanka.utils.extensions.toVisible
+import kotlinx.android.synthetic.main.activity_auth.*
 import kotlinx.android.synthetic.main.error_layer.*
 import kotlinx.android.synthetic.main.success_layer.*
 import org.kodein.di.Kodein
@@ -43,9 +42,11 @@ abstract class BaseActivity<T : BaseViewModel>(private val classT: Class<T>) : A
 
     private fun bindLoadingState(loadingState: LoadingState) {
         when (loadingState) {
-            LoadingState.LOADING -> {
+            LoadingState.LOADING_FULLSCREEN -> {
+                loading_fullscreen_view?.toVisibleAnimated()
             }
             LoadingState.READY -> {
+                loading_fullscreen_view?.toGoneAnimated()
             }
         }
     }

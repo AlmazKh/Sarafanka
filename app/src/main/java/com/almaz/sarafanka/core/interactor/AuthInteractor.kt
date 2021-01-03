@@ -38,10 +38,12 @@ class AuthInteractor(
     fun signInWithPhoneAuthCredential(infoState: InfoState, verificationCode: String) {
         launch {
             runCatching {
+                loadingState.loadingFullscreen()
                 withContext(Dispatchers.IO) {
                     userRepository.signInWithPhoneAuthCredential(verificationCode)
                 }
             }.onSuccess {
+                loadingState.ready()
                 if (userRepository.searchUserInDb(storedPhoneNumber)) {
                     authState.loggedIn()
                     authManager.login()
@@ -52,6 +54,7 @@ class AuthInteractor(
                     infoState.successState.postValue("Аккаунт создан! Для завершения регистрации осталось пару шагов")
                 }
             }.onFailure {
+                loadingState.ready()
                 infoState.errorState.postValue("Ошибка при создании аккаунта. Попробуйте снова")
             }
         }
@@ -78,14 +81,17 @@ class AuthInteractor(
     fun loadAvatarIntoStorage(infoState: InfoState, bitmap: Bitmap) {
         launch {
             runCatching {
+                loadingState.loadingFullscreen()
                 withContext(Dispatchers.IO) {
                     userRepository.loadAvatarIntoStorage(bitmap)
                 }
             }.onSuccess {
                 authState.registered()
                 authManager.login()
+                loadingState.ready()
                 infoState.successState.postValue("Регистрация прошла успешно")
             }.onFailure {
+                loadingState.ready()
                 infoState.errorState.postValue("Ошибка. Попробуйте снова")
             }
         }

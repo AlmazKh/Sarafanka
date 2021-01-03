@@ -28,6 +28,25 @@ fun View.toInvisible() {
     this.visibility = View.INVISIBLE
 }
 
+fun View.toVisibleAnimated() {
+    if (visibility == View.VISIBLE && alpha == 1f)
+        return
+    if (visibility == View.GONE)
+        toVisible()
+    alpha = 0f
+    this.animate().alpha(1f).start()
+}
+
+fun View.toGoneAnimated() {
+    if (visibility == View.GONE && alpha != 1f)
+        return
+    alpha = 1f
+    this.animate().withEndAction {
+        if (visibility == View.VISIBLE)
+            toGone()
+    }.alpha(0f).start()
+}
+
 fun ImageView.loadImage(@DrawableRes resId: Int) =
     Glide.with(this)
         .load(resId)

@@ -32,6 +32,7 @@ class AuthActivity : BaseActivity<AuthViewModel>(AuthViewModel::class.java) {
     override fun setupView() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorWhite)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        loading_fullscreen_view.setOnClickListener {}
         btn_next_to_verification.setOnClickListener {
             checkPhoneNumber("${tv_country_code.text}${et_phone_number.text}")
         }
