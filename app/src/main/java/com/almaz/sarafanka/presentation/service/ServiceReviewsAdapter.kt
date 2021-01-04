@@ -1,4 +1,4 @@
-package com.almaz.sarafanka.presentation.profile
+package com.almaz.sarafanka.presentation.service
 
 import android.view.LayoutInflater
 import android.view.View

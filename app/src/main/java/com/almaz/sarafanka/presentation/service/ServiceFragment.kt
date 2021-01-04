@@ -7,7 +7,9 @@ import com.almaz.sarafanka.R
 import com.almaz.sarafanka.core.model.Service
 import com.almaz.sarafanka.presentation.base.BaseFragment
 import com.almaz.sarafanka.utils.extensions.observe
+import com.almaz.sarafanka.utils.extensions.toVisible
 import com.faltenreich.skeletonlayout.applySkeleton
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_service.*
 
 class ServiceFragment : BaseFragment<ServiceViewModel>(ServiceViewModel::class.java) {
@@ -33,6 +35,11 @@ class ServiceFragment : BaseFragment<ServiceViewModel>(ServiceViewModel::class.j
     override fun subscribe(viewModel: ServiceViewModel) {
         super.subscribe(viewModel)
         observe(viewModel.servicesLiveData, ::bindServices)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        rootActivity.bottom_nav.toVisible()
     }
 
     private fun bindServices(services: List<Service>) {

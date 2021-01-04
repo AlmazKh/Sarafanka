@@ -45,4 +45,5 @@
     <string name="gallery">Галерея</string>
 
     <string name="search">Поиск</string>
+    <string name="no_photo">Пользователь не загрузил фотографию</string>
 </resources>

@@ -42,6 +42,8 @@
         <action
             android:id="@+id/action_otherProfileFragment_to_serviceDetailsFragment"
             app:destination="@id/serviceDetailsFragment" />
+
+        <deepLink app:uri="sarafanka/user/{userId}"/>
     </fragment>
 
     <!-- TODO
@@ -74,7 +76,7 @@
 
     <fragment
         android:id="@+id/serviceDetailsFragment"
-        android:name="com.almaz.sarafanka.presentation.profile.ServiceDetailsFragment"
+        android:name="com.almaz.sarafanka.presentation.service.ServiceDetailsFragment"
         android:label="Service details"
         tools:layout="@layout/fragment_service_details">
 

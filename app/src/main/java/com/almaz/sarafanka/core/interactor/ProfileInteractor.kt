@@ -1,5 +1,6 @@
 package com.almaz.sarafanka.core.interactor
 
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.almaz.sarafanka.core.interfaces.ServiceRepository
@@ -9,6 +10,8 @@ import com.almaz.sarafanka.core.model.ServiceCategory
 import com.almaz.sarafanka.core.model.User
 import com.almaz.sarafanka.data.AuthManager
 import com.almaz.sarafanka.presentation.base.InfoState
+import com.almaz.sarafanka.utils.states.loading
+import com.almaz.sarafanka.utils.states.ready
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -48,6 +51,7 @@ class ProfileInteractor(
     fun getProfileServices(errorState: MutableLiveData<String>, userId: String? = null) {
         launch {
             runCatching {
+                loadingState.loading()
                 withContext(Dispatchers.IO) {
                     if (userId != null) {
                         serviceRepository.getServicesByUserId(userId)
@@ -58,8 +62,10 @@ class ProfileInteractor(
                     }
                 }
             }.onSuccess {
+                loadingState.ready()
                 profileServicesLiveData.postValue(it)
             }.onFailure {
+                loadingState.ready()
                 errorState.postValue(it.message)
             }
         }
@@ -92,10 +98,10 @@ class ProfileInteractor(
         }
     }
 
-    fun publishService(infoState: InfoState, category: String, profession: String, description: String?) {
+    fun publishService(infoState: InfoState, category: String, profession: String, description: String?, images: List<Bitmap>?) {
         launch {
             val response = withContext(Dispatchers.IO) {
-                serviceRepository.publishService(category, profession, description)
+                serviceRepository.publishService(category, profession, description, images)
             }
             if (response.error != null) {
                 infoState.errorState.postValue("Не удалось опубликовать услугу. Попробуйте снова")

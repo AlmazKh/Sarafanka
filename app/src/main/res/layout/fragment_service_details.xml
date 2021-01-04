@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.profile.ServiceDetailsFragment">
+    tools:context=".presentation.service.ServiceDetailsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -40,14 +40,40 @@
             tools:itemCount="1"
             tools:listitem="@layout/item_image_list" />
 
+        <LinearLayout
+            android:id="@+id/card_no_service_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_normal_16"
+            android:background="@drawable/shape_base_placeholder"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:minHeight="158dp"
+            android:visibility="invisible"
+            android:padding="@dimen/spacing_normal_16"
+            app:layout_constraintTop_toBottomOf="@id/tv_service_details_title">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/ic_camera" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal_16"
+                android:text="@string/no_photo" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/tv_service_description"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_normal_16"
+            android:layout_marginHorizontal="@dimen/spacing_normal_16"
             android:layout_marginTop="@dimen/spacing_normal_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rv_service_image_list"
+            app:layout_constraintTop_toBottomOf="@id/card_no_service_photo"
             tools:text="Some description description description description description description" />
 
         <com.google.android.material.button.MaterialButton

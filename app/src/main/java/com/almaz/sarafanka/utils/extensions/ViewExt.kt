@@ -90,3 +90,9 @@ fun ImageView.loadImageWithCustomCorners(reference: StorageReference, radius: In
         .load(reference)
         .transform(CenterCrop(), RoundedCorners(radius))
         .into(this)
+
+fun ImageView.loadImageWithCustomCorners(url: String, radius: Int) =
+    Glide.with(this)
+        .load(url)
+        .transform(CenterCrop(), RoundedCorners(radius))
+        .into(this)

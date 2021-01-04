@@ -7,7 +7,7 @@ import com.almaz.sarafanka.presentation.base.BaseViewModel
 import com.almaz.sarafanka.utils.states.LoadingState
 
 class ProfileViewModel(private val profileInteractor: ProfileInteractor) : BaseViewModel() {
-    override val loadingState = MutableLiveData(LoadingState.READY)
+    override val loadingState = profileInteractor.loadingState
     val profileInfoLiveData = profileInteractor.profileInfoLiveData
     val profileServicesLiveData = profileInteractor.profileServicesLiveData
 
