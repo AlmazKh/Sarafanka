@@ -45,7 +45,7 @@ class ServicesAdapter(private val serviceLambda: (Service) -> Unit) :
                 itemView.tv_has_examples.toInvisible()
             else
                 itemView.tv_has_examples.toVisible()
-            if (service.photo == null)
+            if (service.photo.isNullOrEmpty())
                 itemView.iv_service_avatar.loadImageWithCustomCorners(R.drawable.ic_no_photo, 15)
             else
                 itemView.iv_service_avatar.loadImageWithCustomCorners(service.photo.first(), 15)
