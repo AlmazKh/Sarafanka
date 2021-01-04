@@ -1,60 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
-    android:layout_marginBottom="8dp">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginVertical="@dimen/spacing_tiny_4"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="2dp">
 
-    <TextView
-        android:id="@+id/tvContactName"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:textSize="24sp"
-        android:textColor="@color/colorTitle"
-        app:layout_constraintEnd_toStartOf="@+id/tvContactInvite"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:padding="@dimen/spacing_normal_16">
 
-    <!--<ImageView
-        android:id="@+id/imageView"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvContactName"
-        app:srcCompat="@drawable/ic_account_circle_black_24dp" />-->
+        <TextView
+            android:id="@+id/tv_contact_name"
+            style="@style/Subtitle"
+            android:layout_width="0dp"
+            android:layout_marginEnd="@dimen/spacing_normal_16"
+            android:textColor="@color/colorTitle"
+            app:layout_constraintEnd_toStartOf="@+id/tv_contact_invite"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="some name here" />
 
-    <TextView
-        android:id="@+id/tvContactInvite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorGreen"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/llContactDetails"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/tv_contact_invite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_panel_green_radius_8"
+            android:paddingHorizontal="@dimen/spacing_small_8"
+            android:paddingVertical="2dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/font_tiny_16"
+            app:layout_constraintBottom_toBottomOf="@id/tv_contact_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_contact_name"
+            tools:text="Invite" />
 
-    <LinearLayout
-        android:id="@+id/llContactDetails"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvContactName" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!--  <LinearLayout
+              android:id="@+id/ll_contact_details"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="16dp"
+              android:layout_marginLeft="16dp"
+              android:layout_marginTop="16dp"
+              android:layout_marginEnd="16dp"
+              android:layout_marginRight="16dp"
+              android:layout_marginBottom="16dp"
+              android:orientation="vertical"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toBottomOf="@+id/tvContactName" />-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

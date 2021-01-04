@@ -3,64 +3,75 @@ package com.almaz.sarafanka.presentation.contacts
 import android.app.Application
 import android.database.Cursor
 import android.provider.ContactsContract
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.almaz.sarafanka.core.interfaces.UserRepository
 import com.almaz.sarafanka.core.model.Contact
 import com.almaz.sarafanka.presentation.base.BaseViewModel
 import com.almaz.sarafanka.utils.states.LoadingState
+import com.almaz.sarafanka.utils.states.loading
+import com.almaz.sarafanka.utils.states.ready
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class ContactsViewModel(
-    val userRepository: UserRepository
+    private val userRepository: UserRepository
 ) : BaseViewModel() {
-    override val loadingState = MutableLiveData<LoadingState>()
+    override val loadingState = MutableLiveData<LoadingState>(LoadingState.READY)
 
-    private val _contactsLiveData = MutableLiveData<List<Contact>>()
-    val contactsLiveData: LiveData<List<Contact>> = _contactsLiveData
+    val contactsLiveData = MutableLiveData<List<Contact>>()
 
     fun fetchContacts(application: Application) {
+        loadingState.loading()
         viewModelScope.launch {
             val contactsListAsync = async { getPhoneContacts(application) }
             val contactNumbersAsync = async { getContactNumbers(application) }
-            val contactEmailAsync = async { getContactEmails(application) }
+//            val contactEmailAsync = async { getContactEmails(application) }
 
             val contacts = contactsListAsync.await()
             val contactNumbers = contactNumbersAsync.await()
-            val contactEmails = contactEmailAsync.await()
+//            val contactEmails = contactEmailAsync.await()
 
             contacts.forEach {
                 contactNumbers[it.id]?.let { numbers ->
-                    it.numbers = numbers.map{ it.replace("[\\s,\\-,\\*,\\#]".toRegex(),"") }.filter { it.length > 4 }.toHashSet()
+                    it.numbers = numbers.map { it.replace("[\\s,\\-,\\*,\\#]".toRegex(), "") }
+                        .filter { it.length > 4 }.toHashSet()
                 }
-                contactEmails[it.id]?.let { emails ->
-                    it.emails = emails
-                }
+//                contactEmails[it.id]?.let { emails ->
+//                    it.emails = emails
+//                }
                 if (it.numbers.isNotEmpty())
-                 async {
-                    for (x in it.numbers){
-                        it.user = getUserInDb(x)
+                    async {
+                        for (x in it.numbers) {
+                            it.user = getUserInDb(x)
+                            if (it.user != null) {
+                                break
+                            } else {
+                                if (x[0] == '8') {
+                                    var numb = x
+                                    numb = "+7${numb.substring(1)}"
+                                    it.user = getUserInDb(numb)
+                                }
+                                if (it.user != null)
+                                    break
+                            }
+                        }
                         if (it.user != null)
-                            break
+                            updateContact(it)
                     }
-                    if (it.user != null)
-                        updateContact(it)
-                }
             }
-            _contactsLiveData.postValue(contacts.filter { it.numbers.isNotEmpty() })
+            contactsLiveData.postValue(contacts.filter { it.numbers.isNotEmpty() })
+            loadingState.ready()
         }
     }
 
     @Synchronized
     private fun updateContact(it: Contact){
-        _contactsLiveData.postValue( _contactsLiveData.value?.toHashSet()?.apply{ add(it) }?.toList()
+        contactsLiveData.postValue(contactsLiveData.value?.toHashSet()?.apply { add(it) }?.toList()
             ?.sortedBy { (it.user == null).toString() + it.name })
     }
 
-    private suspend fun getPhoneContacts(application: Application): ArrayList<Contact> {
+    private fun getPhoneContacts(application: Application): ArrayList<Contact> {
         val contactsList = ArrayList<Contact>()
         val contactsCursor = application.contentResolver?.query(
             ContactsContract.Contacts.CONTENT_URI,
@@ -83,7 +94,7 @@ class ContactsViewModel(
         return contactsList
     }
 
-    private suspend fun getContactNumbers(application: Application): HashMap<String, ArrayList<String>> {
+    private fun getContactNumbers(application: Application): HashMap<String, ArrayList<String>> {
         val contactsNumberMap = HashMap<String, ArrayList<String>>()
         val phoneCursor: Cursor? = application.contentResolver.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
