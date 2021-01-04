@@ -101,7 +101,7 @@ class UserRepositoryImpl(
         return try {
             firebaseAuth.signInWithCredential(credential).await()
         } catch (e: Exception) {
-            null
+            throw e
         }
 
         /*.doOnComplete {

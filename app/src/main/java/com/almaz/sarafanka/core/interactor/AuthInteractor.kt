@@ -55,7 +55,7 @@ class AuthInteractor(
                 }
             }.onFailure {
                 loadingState.ready()
-                infoState.errorState.postValue("Ошибка при создании аккаунта. Попробуйте снова")
+                infoState.errorState.postValue("Ошибка при создании аккаунта. Вы точно ввели корректный код?")
             }
         }
     }
