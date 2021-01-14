@@ -63,6 +63,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal_16"
+            android:maxLines="4"
+            android:ellipsize="end"
             app:layout_constraintTop_toBottomOf="@id/iv_service_avatar"
             tools:text="Some description description description description description description" />
     </androidx.constraintlayout.widget.ConstraintLayout>
