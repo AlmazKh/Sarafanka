@@ -3,15 +3,18 @@ package com.almaz.sarafanka.presentation.service
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.almaz.sarafanka.R
 import com.almaz.sarafanka.core.model.Service
 import com.almaz.sarafanka.presentation.base.BaseFragment
 import com.almaz.sarafanka.presentation.profile.ProfileViewModel
+import com.almaz.sarafanka.utils.extensions.getDownloadablePhotoUrl
 import com.almaz.sarafanka.utils.extensions.toGone
 import com.almaz.sarafanka.utils.extensions.toInvisible
 import com.almaz.sarafanka.utils.extensions.toVisible
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_service_details.*
 
@@ -64,7 +67,9 @@ class ServiceDetailsFragment : BaseFragment<ProfileViewModel>(ProfileViewModel::
             card_no_service_photo.toVisible()
         } else {
             card_no_service_photo.toInvisible()
-            imageListAdapter.submitList(service.photo)
+            imageListAdapter.submitList(service.photo.map {
+                FirebaseStorage.getInstance().getDownloadablePhotoUrl(it)
+            })
         }
         if (service.reviews.isNullOrEmpty()) {
             tv_reviews_title.toGone()
@@ -136,6 +141,9 @@ class ServiceDetailsFragment : BaseFragment<ProfileViewModel>(ProfileViewModel::
     }
 
     private fun giveFeedback() {
-
+        rootActivity.navController.navigate(
+            R.id.addReviewsFragment,
+            bundleOf("service_id" to arguments?.getParcelable<Service>("other_service")?.id)
+        )
     }
 }

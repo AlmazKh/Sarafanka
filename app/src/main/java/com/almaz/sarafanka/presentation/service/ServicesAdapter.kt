@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.almaz.sarafanka.R
 import com.almaz.sarafanka.core.model.Service
+import com.almaz.sarafanka.utils.extensions.getDownloadablePhotoUrl
 import com.almaz.sarafanka.utils.extensions.loadImageWithCustomCorners
 import com.almaz.sarafanka.utils.extensions.toInvisible
 import com.almaz.sarafanka.utils.extensions.toVisible
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_profile_services.view.*
 import java.util.*
@@ -48,7 +50,7 @@ class ServicesAdapter(private val serviceLambda: (Service) -> Unit) :
             if (service.photo.isNullOrEmpty())
                 itemView.iv_service_avatar.loadImageWithCustomCorners(R.drawable.ic_no_photo, 15)
             else
-                itemView.iv_service_avatar.loadImageWithCustomCorners(service.photo.first(), 15)
+                itemView.iv_service_avatar.loadImageWithCustomCorners(FirebaseStorage.getInstance().getDownloadablePhotoUrl(service.photo.first()), 15)
         }
     }
 

@@ -1,9 +1,11 @@
 package com.almaz.sarafanka.core.interactor
 
+import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import com.almaz.sarafanka.core.interfaces.ServiceRepository
 import com.almaz.sarafanka.core.interfaces.UserRepository
 import com.almaz.sarafanka.core.model.Service
+import com.almaz.sarafanka.presentation.base.InfoState
 import com.almaz.sarafanka.utils.states.loading
 import com.almaz.sarafanka.utils.states.ready
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +18,7 @@ class ServiceInteractor(
 ) : BaseInteractor() {
 
     val servicesLiveData = MutableLiveData<List<Service>>()
+    val reviewPublishedLiveData = MutableLiveData<Boolean>(false)
 
     fun getServices(errorState: MutableLiveData<String>) {
         launch {
@@ -32,6 +35,27 @@ class ServiceInteractor(
             }.onFailure {
                 loadingState.ready()
                 errorState.postValue(it.message)
+            }
+        }
+    }
+
+    fun publishReview(
+        infoState: InfoState,
+        serviceId: String,
+        recommended: Boolean,
+        price: Int?,
+        description: String?,
+        images: List<Bitmap>?
+    ) {
+        launch {
+            val response = withContext(Dispatchers.IO) {
+                serviceRepository.publishReview(serviceId, recommended, price, description, images)
+            }
+            if (response.error != null) {
+                infoState.errorState.postValue("Не удалось опубликовать отзыв. Попробуйте снова")
+            } else {
+                reviewPublishedLiveData.postValue(true)
+                infoState.successState.postValue("Отзыв успешно опубликован")
             }
         }
     }

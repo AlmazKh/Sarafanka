@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.almaz.sarafanka.R
 import com.almaz.sarafanka.core.model.Review
+import com.almaz.sarafanka.utils.extensions.getDownloadablePhotoUrl
 import com.almaz.sarafanka.utils.extensions.loadCircleImage
 import com.almaz.sarafanka.utils.extensions.toGone
 import com.almaz.sarafanka.utils.extensions.toVisible
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_service_reviews.view.*
 
@@ -45,9 +47,15 @@ class ServiceReviewsAdapter :
             itemView.tv_review_description.text = review.description
             with(itemView.rv_review_image_list) {
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-                adapter = review.photo?.let { ImageListAdapter(it) }
+                adapter = ImageListAdapter(review.photo?.map {
+                    FirebaseStorage.getInstance().getDownloadablePhotoUrl(it)
+                } ?: listOf())
             }
-            itemView.tv_price.text = "Цена: ${review.service_price} руб."
+            if (review.service_price != null) {
+                itemView.tv_price.text = "Цена: ${review.service_price} руб."
+            } else {
+                itemView.tv_price.text = "Цена не указана"
+            }
         }
     }
 

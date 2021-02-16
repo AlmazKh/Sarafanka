@@ -1,8 +1,6 @@
 package com.almaz.sarafanka.data.repository
 
 import android.graphics.Bitmap
-import android.net.Uri
-import android.provider.MediaStore
 import com.almaz.sarafanka.core.interfaces.ServiceRepository
 import com.almaz.sarafanka.core.interfaces.UserRepository
 import com.almaz.sarafanka.core.model.Review
@@ -11,7 +9,6 @@ import com.almaz.sarafanka.core.model.ServiceCategory
 import com.almaz.sarafanka.core.model.User
 import com.almaz.sarafanka.data.ServiceCategoriesHolder
 import com.almaz.sarafanka.utils.Response
-import com.almaz.sarafanka.utils.extensions.getDownloadablePhotoUrl
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
@@ -88,6 +85,7 @@ class ServiceRepositoryImpl(
     ): Response<Boolean> {
         return try {
             val serviceMap = HashMap<String, Any?>()
+            serviceMap[SERVICE_ID] = db.collection(SERVICES).document().id
             serviceMap[SERVICE_CATEGORY_ID] = serviceCategoriesHolder.getCategoryIdByName(category)
             serviceMap[SERVICE_SUBCATEGORY] = profession
             serviceMap[SERVICE_DESCRIPTION] = description
@@ -102,10 +100,34 @@ class ServiceRepositoryImpl(
         }
     }
 
+    override suspend fun publishReview(
+        serviceId: String,
+        recommended: Boolean,
+        price: Int?,
+        description: String?,
+        images: List<Bitmap>?
+    ): Response<Boolean> {
+        return try {
+            val reviewMap = HashMap<String, Any?>()
+            reviewMap[REVIEW_DESCRIPTION] = description
+            reviewMap[REVIEW_IS_RECOMMENDED] = recommended
+            reviewMap[REVIEW_PHOTO] = images?.let { loadPhotoIntoStorage(it) }
+            reviewMap[REVIEW_SERVICE_PRICE] = price
+            reviewMap[REVIEW_SERVICE_ID] = serviceId
+            reviewMap[REVIEW_WRITER_ID] = firebaseAuth.currentUser?.uid
+            db.collection(REVIEWS)
+                .add(reviewMap)
+                .await()
+            Response.success(true)
+        } catch (e: Exception) {
+            Response.error(e)
+        }
+    }
+
     private fun loadPhotoIntoStorage(images: List<Bitmap>): List<String> {
         val refList = mutableListOf<String>()
         images.forEach { bitmap ->
-            val reference = "profile/${UUID.randomUUID()}"
+            val reference = "service/${UUID.randomUUID()}"
             val baos = ByteArrayOutputStream()
             if (bitmap.byteCount > 15000000)
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos)
@@ -127,9 +149,7 @@ class ServiceRepositoryImpl(
             )!!,
             subcategory = documentSnapshot.get(SERVICE_SUBCATEGORY).toString(),
             photo = (documentSnapshot.get(SERVICE_PHOTO) as List<*>?)?.map {
-                storage.getDownloadablePhotoUrl(
-                    it.toString()
-                )
+                it.toString()
             },
             description = documentSnapshot.get(SERVICE_DESCRIPTION).toString(),
             reviews = getServiceReviews(documentSnapshot.get(SERVICE_ID).toString()),
@@ -154,11 +174,10 @@ class ServiceRepositoryImpl(
             isRecommended = documentSnapshot.get(REVIEW_IS_RECOMMENDED).toString().toBoolean(),
             inContacts = true, // TODO
             photo = (documentSnapshot.get(REVIEW_PHOTO) as List<*>?)?.map {
-                storage.getDownloadablePhotoUrl(
-                    it.toString()
-                )
+                it.toString()
             },
-            service_price = documentSnapshot.get(REVIEW_SERVICE_PRICE).toString().toInt(),
+            service_price = documentSnapshot.get(REVIEW_SERVICE_PRICE)
+                ?.let { it.toString().toInt() },
             serviceId = documentSnapshot.get(REVIEW_SERVICE_ID).toString(),
             writer = user
         )

@@ -43,6 +43,9 @@
     <string name="description">Описание</string>
     <string name="publish">Опубликовать</string>
     <string name="gallery">Галерея</string>
+    <!--    Add reviews page -->
+    <string name="price">Цена</string>
+    <string name="add_reviews_page_title">Оставить отзыв</string>
 
     <string name="search">Поиск</string>
     <string name="no_photo">Пользователь не загрузил фотографию</string>

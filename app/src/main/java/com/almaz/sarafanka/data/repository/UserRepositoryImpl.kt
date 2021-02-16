@@ -14,7 +14,6 @@ import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 import java.util.*
@@ -222,6 +221,6 @@ class UserRepositoryImpl(
             documentSnapshot.get(USER_ID).toString(),
             documentSnapshot.get(USER_PHONE).toString(),
             documentSnapshot.get(USER_NAME).toString(),
-            storage.getDownloadablePhotoUrl(documentSnapshot.get(USER_PHOTO).toString())
+            documentSnapshot.get(USER_PHOTO)?.let { storage.getDownloadablePhotoUrl(it.toString()) }
         )
 }
