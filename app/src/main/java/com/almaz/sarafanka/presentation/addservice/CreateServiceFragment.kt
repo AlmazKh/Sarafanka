@@ -18,6 +18,7 @@ import com.almaz.sarafanka.R
 import com.almaz.sarafanka.core.model.ServiceCategory
 import com.almaz.sarafanka.presentation.base.BaseFragment
 import com.almaz.sarafanka.utils.InfoPanelManager
+import com.almaz.sarafanka.utils.LoadedImagesAdapter
 import com.almaz.sarafanka.utils.extensions.hideKeyboard
 import com.almaz.sarafanka.utils.extensions.observe
 import com.almaz.sarafanka.utils.extensions.toGone

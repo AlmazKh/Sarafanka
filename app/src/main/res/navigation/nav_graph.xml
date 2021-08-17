@@ -9,7 +9,7 @@
         android:id="@+id/contactsFragment"
         android:name="com.almaz.sarafanka.presentation.contacts.ContactsFragment"
         android:label="@string/contacts_page_title"
-        tools:layout="@layout/fragment_contacts" >
+        tools:layout="@layout/fragment_contacts">
         <action
             android:id="@+id/action_contactsFragment_to_otherProfileFragment"
             app:destination="@id/otherProfileFragment" />
@@ -43,7 +43,7 @@
             android:id="@+id/action_otherProfileFragment_to_serviceDetailsFragment"
             app:destination="@id/serviceDetailsFragment" />
 
-        <deepLink app:uri="sarafanka/user/{userId}"/>
+        <deepLink app:uri="sarafanka/user/{userId}" />
     </fragment>
 
     <!-- TODO
@@ -83,5 +83,20 @@
         <argument
             android:name="arg_service"
             app:argType="com.almaz.sarafanka.core.model.Service" />
+
+        <action
+            android:id="@+id/action_serviceDetailsFragment_to_addReviewsFragment"
+            app:destination="@id/addReviewsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addReviewsFragment"
+        android:name="com.almaz.sarafanka.presentation.service.AddReviewsFragment"
+        android:label="Add reviews"
+        tools:layout="@layout/fragment_add_reviews">
+
+        <argument
+            android:name="arg_service_id"
+            app:argType="string" />
     </fragment>
 </navigation>

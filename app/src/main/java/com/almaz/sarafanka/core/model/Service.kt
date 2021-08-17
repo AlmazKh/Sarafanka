@@ -10,7 +10,7 @@ data class Service(
     val id: String?,
     val category: @RawValue ServiceCategory,
     val subcategory: String,
-    val photo: @RawValue List<StorageReference>? = null,
+    val photo: @RawValue List<String>? = null,
     val description: String? = null,
     val reviews: @RawValue List<Review>? = null,
     val owner_id: String

@@ -1,4 +1,4 @@
-package com.almaz.sarafanka.presentation.addservice
+package com.almaz.sarafanka.utils
 
 import android.net.Uri
 import android.view.LayoutInflater
