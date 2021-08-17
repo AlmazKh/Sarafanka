@@ -7,4 +7,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="PageTitle">
+        <item name="android:textColor">@color/colorTitle</item>
+        <item name="android:textSize">@dimen/font_large_28</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
 </resources>
