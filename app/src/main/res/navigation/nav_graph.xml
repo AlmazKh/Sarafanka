@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/serviceFragment">
+
+    <fragment
+        android:id="@+id/contactsFragment"
+        android:name="com.almaz.sarafanka.presentation.contacts.ContactsFragment"
+        android:label="@string/contacts_page_title"
+        tools:layout="@layout/fragment_contacts">
+        <action
+            android:id="@+id/action_contactsFragment_to_otherProfileFragment"
+            app:destination="@id/otherProfileFragment" />
+    </fragment>
+
+    <!-- TODO
+    <fragment
+        android:id="@+id/eventFragment"
+        android:name="com.almaz.sarafanka.presentation.event.EventFragment"
+        android:label="@string/event_page_title"
+        tools:layout="@layout/fragment_event" />-->
+
+    <fragment
+        android:id="@+id/serviceFragment"
+        android:name="com.almaz.sarafanka.presentation.service.ServiceFragment"
+        android:label="@string/service_page_title"
+        tools:layout="@layout/fragment_service">
+
+        <action
+            android:id="@+id/action_serviceFragment_to_otherProfileFragment"
+            app:destination="@id/otherProfileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/otherProfileFragment"
+        android:name="com.almaz.sarafanka.presentation.profile.OtherUserProfileFragment"
+        android:label="@string/profile_page_title"
+        tools:layout="@layout/fragment_other_user_profile">
+
+        <action
+            android:id="@+id/action_otherProfileFragment_to_serviceDetailsFragment"
+            app:destination="@id/serviceDetailsFragment" />
+
+        <deepLink app:uri="sarafanka/user/{userId}" />
+    </fragment>
+
+    <!-- TODO
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.almaz.sarafanka.presentation.notification.NotificationFragment"
+        android:label="@string/notification_page_title"
+        tools:layout="@layout/fragment_notification" />-->
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.almaz.sarafanka.presentation.profile.ProfileFragment"
+        android:label="@string/profile_page_title"
+        tools:layout="@layout/fragment_profile">
+
+        <action
+            android:id="@+id/action_profileFragment_to_serviceDetailsFragment"
+            app:destination="@id/serviceDetailsFragment" />
+
+        <action
+            android:id="@+id/action_profileFragment_to_createServiceFragment"
+            app:destination="@id/createServiceFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createServiceFragment"
+        android:name="com.almaz.sarafanka.presentation.addservice.CreateServiceFragment"
+        android:label="Create service"
+        tools:layout="@layout/fragment_create_service" />
+
+    <fragment
+        android:id="@+id/serviceDetailsFragment"
+        android:name="com.almaz.sarafanka.presentation.service.ServiceDetailsFragment"
+        android:label="Service details"
+        tools:layout="@layout/fragment_service_details">
+
+        <argument
+            android:name="arg_service"
+            app:argType="com.almaz.sarafanka.core.model.Service" />
+
+        <action
+            android:id="@+id/action_serviceDetailsFragment_to_addReviewsFragment"
+            app:destination="@id/addReviewsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addReviewsFragment"
+        android:name="com.almaz.sarafanka.presentation.service.AddReviewsFragment"
+        android:label="Add reviews"
+        tools:layout="@layout/fragment_add_reviews">
+
+        <argument
+            android:name="arg_service_id"
+            app:argType="string" />
+    </fragment>
+</navigation>

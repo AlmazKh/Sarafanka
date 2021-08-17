@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.profile.ProfileFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_profile_page_title"
+            style="@style/PageTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal_16"
+            android:layout_marginTop="@dimen/spacing_normal_16"
+            android:text="@string/profile_page_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/ib_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_normal_16"
+            android:backgroundTintMode="screen"
+            android:src="@drawable/ic_baseline_exit_to_app_24"
+            app:layout_constraintBottom_toBottomOf="@id/tv_profile_page_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_profile_page_title" />
+
+        <ImageView
+            android:id="@+id/iv_user_avatar"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
+            android:layout_marginStart="@dimen/spacing_normal_16"
+            android:layout_marginTop="@dimen/spacing_normal_16"
+            android:src="@drawable/ic_default_avatar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_page_title" />
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            style="@style/Subtitle"
+            android:layout_marginStart="@dimen/spacing_normal_16"
+            app:layout_constraintBottom_toBottomOf="@id/iv_user_avatar"
+            app:layout_constraintStart_toEndOf="@id/iv_user_avatar"
+            app:layout_constraintTop_toTopOf="@id/iv_user_avatar"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Some name here" />
+
+        <TextView
+            android:id="@+id/tv_active_service_subtitle"
+            style="@style/Subtitle"
+            android:layout_marginStart="@dimen/spacing_normal_16"
+            android:layout_marginTop="@dimen/spacing_large_24"
+            android:text="@string/user_services"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_user_avatar" />
+
+        <ImageButton
+            android:id="@+id/btn_create_service"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="@dimen/spacing_normal_16"
+            android:src="@drawable/ic_add_btn"
+            app:layout_constraintBottom_toBottomOf="@id/tv_active_service_subtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_active_service_subtitle" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_profile_services"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal_16"
+            android:clipToPadding="false"
+            android:paddingHorizontal="@dimen/spacing_normal_16"
+            app:layout_constraintTop_toBottomOf="@id/tv_active_service_subtitle"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_profile_services" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

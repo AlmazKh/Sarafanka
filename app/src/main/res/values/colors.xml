@@ -8,4 +8,5 @@
     <color name="colorTitle">#000000</color>
     <color name="colorSecondaryText">#636363</color>
     <color name="colorHintText">#ABABA7</color>
+    <color name="colorPlaceholder">#E5E5EA</color>
 </resources>

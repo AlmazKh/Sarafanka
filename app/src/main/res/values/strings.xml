@@ -1,3 +1,52 @@
 <resources>
     <string name="app_name">Sarafanka</string>
+    <!--    Auth pages -->
+    <string name="your_phone_number">Ваш номер телефона</string>
+    <string name="default_country_code">+7</string>
+    <string name="next">Далее</string>
+    <string name="approve">Подтвердить</string>
+    <string name="verification_code">Код потверждения</string>
+    <string name="what_is_your_name">Как Вас зовут?</string>
+    <string name="your_name">Ваше имя</string>
+    <string name="upload_photo">Загрузите ваше фото</string>
+    <string name="skip">Пропустить</string>
+    <string name="enter_phone">Enter phone page</string>
+    <string name="enter_code">Enter code page</string>
+    <string name="enter_name">Enter name page</string>
+    <string name="enter_photo">Enter photo page</string>
+    <string name="phone_page_description">Введите ваш номер телефона</string>
+    <string name="verification_page_description">Введите код, который мы отправили на Ваш номер</string>
+    <!--    Contacts page -->
+    <string name="contacts_page_title">Знакомые</string>
+    <!--    Event page -->
+    <string name="event_page_title">События</string>
+    <!--    Service page -->
+    <string name="service_page_title">Услуги</string>
+    <!--    Notification page -->
+    <string name="notification_page_title">Уведомления</string>
+    <!--    Profile page -->
+    <string name="profile_page_title">Профиль</string>
+    <string name="contact_with_someone">Связаться</string>
+    <string name="user_services">Услуги пользователя</string>
+    <string name="my_services">Мои услуги</string>
+    <string name="examples">Примеры</string>
+    <string name="request_recommendation">Запросить рекомендацию</string>
+    <string name="give_feedback">Оставить отзыв</string>
+    <string name="share">Поделиться</string>
+    <string name="works_examples">Примеры работ</string>
+    <string name="in_contacts">Знакомый</string>
+    <string name="recommended">Рекомендует</string>
+    <!--    Profile page -->
+    <string name="add_service_page_title">Публикация услуги</string>
+    <string name="service_sphere">Сфера услуги</string>
+    <string name="profession">Профессия</string>
+    <string name="description">Описание</string>
+    <string name="publish">Опубликовать</string>
+    <string name="gallery">Галерея</string>
+    <!--    Add reviews page -->
+    <string name="price">Цена</string>
+    <string name="add_reviews_page_title">Оставить отзыв</string>
+
+    <string name="search">Поиск</string>
+    <string name="no_photo">Пользователь не загрузил фотографию</string>
 </resources>
